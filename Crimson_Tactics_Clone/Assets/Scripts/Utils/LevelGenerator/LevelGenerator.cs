@@ -57,7 +57,8 @@ namespace CrimsonTactics.Level
                     if (gridTileArray[i, j] == TileType.OBSTACLE)
                     {
                         spawnedTile.ToggleTileStatus();
-                        tileDataSO.AddObstacleTilePosition(tilePosition);
+                        Vector3 obstacleOffsetPosition = new Vector3(tilePosition.x, tilePosition.y + obstacleOffset, tilePosition.z);
+                        tileDataSO.AddObstacleTilePosition(obstacleOffsetPosition);
                     }
                 }
             }
@@ -101,7 +102,7 @@ namespace CrimsonTactics.Level
         private Vector3 GetTilePosition(int x, int z)
         {
             startOffset = new Vector3(gridSizeX / 2, transform.position.y, gridSizeY / 2);
-            Vector3 tilePosition = new Vector3(x, obstacleOffset, z) - startOffset;
+            Vector3 tilePosition = new Vector3(x, transform.position.y, z) - startOffset;
             return tilePosition;
         }
     }
