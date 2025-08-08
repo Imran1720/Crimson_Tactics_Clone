@@ -8,15 +8,9 @@ Inspired by Crimson Tactics, this project was developed in Unity and focuses on 
 Each functionality below will be implemented in a separate branch. Once completed and tested, it will be checked off here.
 
 ### 1️⃣ Grid Generation
-<<<<<<< HEAD
-- [] 10x10 cube grid  
-- [] Tile hover detection  
-- [] UI display of tile position
-=======
-- [ ] 10x10 cube grid  
-- [ ] Tile hover detection  
-- [ ] UI display of tile position
->>>>>>> 18b3fdbd464ee33a4bf673da07d944e31183048f
+- [x] 10x10 cube grid  
+- [x] Tile hover detection  
+- [x] UI display of tile position
 
 ---
 
