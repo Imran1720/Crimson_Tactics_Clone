@@ -36,7 +36,18 @@ namespace CrimsonTactics.Level
             GenerateGridButtons();
             AddVerticalSpace();
 
+            GUILayout.BeginHorizontal();
             SpawnTiles();
+            ClearLevel();
+            GUILayout.EndHorizontal();
+        }
+
+        private void ClearLevel()
+        {
+            if (GUILayout.Button("Clear Level", GUILayout.Width(actionButtonWidth), GUILayout.Height(actionButtonHeight)))
+            {
+                levelInstance.ClearLevel();
+            }
         }
 
         private static void AddVerticalSpace()
@@ -71,18 +82,11 @@ namespace CrimsonTactics.Level
                     GUI.color = Color.green;
                     if (GUILayout.Button("", GUILayout.Width(buttonSize * 2), GUILayout.Height(buttonSize * 2)))
                     {
-                        Debug.Log("Grid " + gridSizeX);
-                        DoSomething();
                     }
                 }
                 GUILayout.EndHorizontal();
             }
             GUI.color = Color.white;
-        }
-
-        private void DoSomething()
-        {
-            Debug.Log("\n  AA");
         }
 
         // Initializes level data, including grid size, button size, and other related settings.

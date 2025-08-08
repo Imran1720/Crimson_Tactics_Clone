@@ -8,7 +8,10 @@ namespace CrimsonTactics.Level
         [Header("Level-Data")]
         [SerializeField] private LevelLayoutSettings layoutSettings;
         [SerializeField] private GameObject tilePrefab;
-        [SerializeField] private Transform levelContainer;
+        [SerializeField] private Transform gameService;
+        [SerializeField] private Transform levelContainerPrefab;
+
+        private Transform levelContainer;
 
 
         private TileType[,] gridTileArray;
@@ -17,15 +20,14 @@ namespace CrimsonTactics.Level
         private int gridSizeY;
         private Vector3 startOffset;
 
-        public void InitializeLevelData()
-        {
-            gridSizeX = layoutSettings.gridSizeX;
-            gridSizeY = layoutSettings.gridSizeY;
-        }
-
         //Method to create the gridSizeX x gridSizeY sized TileType Array
         public void CreateGridTileArray()
         {
+            gridSizeX = layoutSettings.gridSizeX;
+            gridSizeY = layoutSettings.gridSizeY;
+
+            Debug.Log(gridSizeX + " " + gridSizeY);
+
             gridTileArray = new TileType[gridSizeX, gridSizeY];
         }
 
@@ -37,6 +39,9 @@ namespace CrimsonTactics.Level
                 return;
             }
 
+            levelContainer = Instantiate(levelContainerPrefab, transform.position, Quaternion.identity);
+            levelContainer.SetParent(gameService, false);
+
             for (int i = 0; i < gridSizeX; i++)
             {
                 for (int j = 0; j < gridSizeY; j++)
@@ -47,6 +52,14 @@ namespace CrimsonTactics.Level
             }
         }
 
+        public void ClearLevel()
+        {
+            if (levelContainer != null)
+            {
+                DestroyImmediate(levelContainer.gameObject);
+            }
+            gridTileArray = null;
+        }
         public LevelLayoutSettings GetLevelLayoutSettings() => layoutSettings;
         public bool IsGridArrayEmpty() => gridTileArray == null;
 
