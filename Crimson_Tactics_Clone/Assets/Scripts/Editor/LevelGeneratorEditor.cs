@@ -80,9 +80,10 @@ namespace CrimsonTactics.Level
                 GUILayout.BeginHorizontal();
                 for (int j = 0; j < gridSizeY; j++)
                 {
-                    GUI.color = Color.green;
+                    GUI.color = GetTileColor(i, j);
                     if (GUILayout.Button("", GUILayout.Width(buttonSize * 2), GUILayout.Height(buttonSize * 2)))
                     {
+                        levelInstance.ToggleTileStatus(i, j);
                     }
                 }
                 GUILayout.EndHorizontal();
@@ -101,6 +102,11 @@ namespace CrimsonTactics.Level
                 actionButtonWidth = levelLayoutSettings.actionButtonWidth;
                 actionButtonHeight = levelLayoutSettings.actionButtonHeight;
             }
+        }
+
+        private Color GetTileColor(int x, int y)
+        {
+            return levelInstance.GettileType(x, y) == TileType.OBSTACLE ? Color.yellow : Color.green;
         }
     }
 }
