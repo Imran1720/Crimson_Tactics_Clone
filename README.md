@@ -74,7 +74,11 @@ Assets/
 │  └── Utils/
 └── Scenes/
 <<<<<<< HEAD
+<<<<<<< HEAD
       └──MainScene.unity
+=======
+      └──MainScene.unity
+>>>>>>> 18b3fdbd464ee33a4bf673da07d944e31183048f
 =======
       └──MainScene.unity
 >>>>>>> 18b3fdbd464ee33a4bf673da07d944e31183048f
