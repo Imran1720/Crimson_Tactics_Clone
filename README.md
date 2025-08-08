@@ -44,20 +44,27 @@ Each functionality below will be implemented in a separate branch. Once complete
 
 ---
 
-## Project Architecture
-/Assets
-  /Resources
-    /Art
-      /Materials
-      /Models
-      /Textures
-    /Prefabs
-    /DataSO
-  /Scripts
-    /Grid
-    /UI
-    /Obstacles
-    /Pathfinding
-    /AI
-    /Editor
-/Scenes
+## Project Folder Architecture
+```plaintext
+Assets/
+├── Resources/
+│  ├── Art/
+│  │  ├── Materials/
+│  │  ├── Models/
+│  │  └── Textures/
+│  ├── Prefabs/
+│  └── DataSO/
+├── Scripts/
+│  ├── AI/
+│  ├── Core/
+│  ├── Custom Data/
+│  ├── Editor/
+│  ├── Event/
+│  ├── Grid/
+│  ├── Obstacles/
+│  ├── Pathfinding/
+│  ├── ScriptableObjects/
+│  ├── UI/
+│  └── Utils/
+└── Scenes/
+      └──MainScene.unity
