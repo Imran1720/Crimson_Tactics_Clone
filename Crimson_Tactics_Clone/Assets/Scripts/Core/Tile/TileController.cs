@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class TileController : MonoBehaviour
 {
-    private Vector3 tilePosition;
+    private Vector3 tileWorldPosition;
+    private Vector2 tileGridPosition;
     private TileType currentTileType;
 
     private void Start()
     {
-        tilePosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        tileGridPosition = new Vector2(transform.position.x, transform.position.z);
+        tileWorldPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
-    public Vector3 GetTilePosition() => tilePosition;
+    public Vector3 GetTileWorldPosition() => tileWorldPosition;
+    public Vector2 GetTileGridPosition() => tileGridPosition;
     public bool IsTileOccupied() => currentTileType == TileType.OBSTACLE;
     public void ToggleTileStatus()
     {

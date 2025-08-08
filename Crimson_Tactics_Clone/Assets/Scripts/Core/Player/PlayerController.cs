@@ -1,3 +1,4 @@
+using CrimsonTactics.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,13 +12,20 @@ public class PlayerController : MonoBehaviour
 
     private Ray ray;
     private RaycastHit rayHit;
-    private Vector3 mouseWorldPosition;
     private Camera currentCamera;
+    private Vector2 oldHoverGridPosition;
 
+    private EventService eventService;
     private void Start()
     {
         currentCamera = Camera.main;
     }
+
+    public void InitializeService(EventService eventService)
+    {
+        this.eventService = eventService;
+    }
+
     private void Update()
     {
         RunHoverDetection();
@@ -29,13 +37,24 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out rayHit, rayDistance, detectionlayer))
         {
-
             TileController tile = rayHit.collider.GetComponent<TileController>();
-            if (tile == null)
+            if (IsInvalidTile(tile) || IsOldPosition(tile))
             {
                 return;
             }
-            Debug.Log(tile.GetTilePosition());
+
+            oldHoverGridPosition = tile.GetTileGridPosition();
+            eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition);
         }
+    }
+
+    private bool IsOldPosition(TileController tile)
+    {
+        return oldHoverGridPosition == tile.GetTileGridPosition();
+    }
+
+    private static bool IsInvalidTile(TileController tile)
+    {
+        return tile == null;
     }
 }
