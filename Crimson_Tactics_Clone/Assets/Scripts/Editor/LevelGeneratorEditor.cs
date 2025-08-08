@@ -28,6 +28,7 @@ namespace CrimsonTactics.Level
             {
                 levelInstance.CreateGridTileArray();
             }
+            AddVerticalSpace();
 
             if (IsGridDimensionsInvalid() || levelInstance.IsGridArrayEmpty())
             {
@@ -44,7 +45,7 @@ namespace CrimsonTactics.Level
 
         private void ClearLevel()
         {
-            if (GUILayout.Button("Clear Level", GUILayout.Width(actionButtonWidth), GUILayout.Height(actionButtonHeight)))
+            if (GUILayout.Button("Clear Level"))
             {
                 levelInstance.ClearLevel();
             }
@@ -57,7 +58,7 @@ namespace CrimsonTactics.Level
 
         private void SpawnTiles()
         {
-            if (GUILayout.Button("Spawn Tiles", GUILayout.Width(actionButtonWidth), GUILayout.Height(actionButtonHeight)))
+            if (GUILayout.Button("Spawn Tiles"))
             {
                 levelInstance.GenerateGrid();
             }

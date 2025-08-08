@@ -26,8 +26,6 @@ namespace CrimsonTactics.Level
             gridSizeX = layoutSettings.gridSizeX;
             gridSizeY = layoutSettings.gridSizeY;
 
-            Debug.Log(gridSizeX + " " + gridSizeY);
-
             gridTileArray = new TileType[gridSizeX, gridSizeY];
         }
 
@@ -71,6 +69,5 @@ namespace CrimsonTactics.Level
             Vector3 tilePosition = new Vector3(x, transform.position.y, z) - startOffset;
             return tilePosition;
         }
-
     }
 }
