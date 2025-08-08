@@ -9,8 +9,8 @@ Each functionality below will be implemented in a separate branch. Once complete
 
 ### 1️⃣ Grid Generation
 - [x] 10x10 cube grid  
-- [ ] Tile hover detection  
-- [ ] UI display of tile position
+- [x] Tile hover detection  
+- [x] UI display of tile position
 
 ---
 

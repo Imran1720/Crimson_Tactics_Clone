@@ -6225,7 +6225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0e75ae90f1f0a45812642ab5880a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePositionUI: {fileID: 1847623970}
+  visibleDuration: 4
+  tilePositionUIGO: {fileID: 1847623968}
+  tilePositionText: {fileID: 1953628518}
 --- !u!114 &993324402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10880,14 +10882,13 @@ GameObject:
   - component: {fileID: 1847623969}
   - component: {fileID: 1847623972}
   - component: {fileID: 1847623971}
-  - component: {fileID: 1847623970}
   m_Layer: 5
   m_Name: Tile_Position_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1847623969
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10910,20 +10911,6 @@ RectTransform:
   m_AnchoredPosition: {x: -285.3, y: -214.1}
   m_SizeDelta: {x: 500, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1847623970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1847623968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cd19126d3b07046b2295d142631097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visibleDuration: 5
-  tilePositionText: {fileID: 1953628518}
 --- !u!114 &1847623971
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,44 +1,38 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TilePositionUI : MonoBehaviour
+namespace CrimsonTactics.UI
 {
-    [SerializeField] private float visibleDuration;
-    [SerializeField] private TextMeshProUGUI tilePositionText;
-
-    private float timer;
-
-    private void Awake()
+    public class TilePositionUI
     {
-        HideUI();
-    }
+        private UIService uiService;
 
-    private void Update()
-    {
-        timer -= Time.deltaTime;
+        private float timer;
+        private float visibleDuration;
+        private TextMeshProUGUI tilePositionUIText;
 
-        if (timer <= 0)
+        public TilePositionUI(float visibleDuration, UIService uiService, TextMeshProUGUI text)
         {
-            HideUI();
+            this.uiService = uiService;
+            this.tilePositionUIText = text;
+            this.visibleDuration = visibleDuration;
         }
-    }
 
-    private void HideUI()
-    {
-        gameObject.SetActive(false);
-    }
+        public void Update()
+        {
+            timer -= Time.deltaTime;
 
-    private void ShowUI()
-    {
-        gameObject.SetActive(true);
-    }
-    public void SetTilePosition(Vector2 tilePosition)
-    {
-        tilePositionText.text = $"({tilePosition.x},{tilePosition.y})";
-        timer = visibleDuration;
-        ShowUI();
+            if (timer <= 0)
+            {
+                uiService.HideTilePositionUI();
+            }
+        }
+
+        public void SetTilePosition(Vector2 tilePosition)
+        {
+            timer = visibleDuration;
+            uiService.ShowTilePositionUI();
+            tilePositionUIText.text = $"({tilePosition.x},{tilePosition.y})";
+        }
     }
 }

@@ -1,14 +1,16 @@
 using CrimsonTactics.Events;
+using CrimsonTactics.Player;
+using CrimsonTactics.UI;
 using UnityEngine;
 
 namespace CrimsonTactics.Core
 {
     public class GameService : MonoBehaviour
     {
+        private EventService eventService;
+
         [SerializeField] private UIService uiService;
         [SerializeField] private PlayerController playerController;
-
-        private EventService eventService;
 
         private void Start()
         {

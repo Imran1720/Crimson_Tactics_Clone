@@ -1,33 +1,48 @@
 using CrimsonTactics.Events;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class UIService : MonoBehaviour
+namespace CrimsonTactics.UI
 {
-
-    [SerializeField] private TilePositionUI tilePositionUI;
-    private EventService eventService;
-
-    void Start()
+    public class UIService : MonoBehaviour
     {
+        private EventService eventService;
 
-    }
+        [SerializeField] private float visibleDuration;
+        [SerializeField] private GameObject tilePositionUIGO;
+        [SerializeField] private TextMeshProUGUI tilePositionText;
 
-    public void InitializeServices(EventService eventService)
-    {
-        this.eventService = eventService;
-        eventService.onTilePositionUpdated.AddEventListener(OnTilePositionChanged);
-    }
+        private TilePositionUI tilePositionUI;
 
-    private void OnDisable()
-    {
-        eventService.onTilePositionUpdated.RemoveEventListener(OnTilePositionChanged);
-    }
+        private void Start()
+        {
+            tilePositionUI = new TilePositionUI(visibleDuration, this, tilePositionText);
+        }
 
+        private void Update()
+        {
+            tilePositionUI.Update();
+        }
+        public void InitializeServices(EventService eventService)
+        {
+            this.eventService = eventService;
+            eventService.onTilePositionUpdated.AddEventListener(UpdateTilePositionUI);
+        }
 
-    private void OnTilePositionChanged(Vector2 position)
-    {
-        tilePositionUI.SetTilePosition(position);
+        private void OnDisable()
+        {
+            eventService.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
+        }
+
+        private void UpdateTilePositionUI(Vector2 position)
+        {
+            tilePositionUI.SetTilePosition(position);
+        }
+
+        public void HideTilePositionUI() => HideUI(tilePositionUIGO);
+        public void ShowTilePositionUI() => ShowUI(tilePositionUIGO);
+
+        public void ShowUI(GameObject uiObject) => uiObject.SetActive(true);
+        public void HideUI(GameObject uiObject) => uiObject.SetActive(false);
     }
 }

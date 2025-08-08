@@ -1,60 +1,61 @@
 using CrimsonTactics.Events;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using CrimsonTactics.Tile;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace CrimsonTactics.Player
 {
-    [Header("Ray-Data")]
-    [SerializeField] private float rayDistance;
-    [SerializeField] private LayerMask detectionlayer;
-
-    private Ray ray;
-    private RaycastHit rayHit;
-    private Camera currentCamera;
-    private Vector2 oldHoverGridPosition;
-
-    private EventService eventService;
-    private void Start()
+    public class PlayerController : MonoBehaviour
     {
-        currentCamera = Camera.main;
-    }
+        private EventService eventService;
 
-    public void InitializeService(EventService eventService)
-    {
-        this.eventService = eventService;
-    }
+        [Header("Ray-Data")]
+        [SerializeField] private float rayDistance;
+        [SerializeField] private LayerMask detectionlayer;
 
-    private void Update()
-    {
-        RunHoverDetection();
-    }
+        private Ray ray;
+        private RaycastHit rayHit;
 
-    private void RunHoverDetection()
-    {
-        ray = currentCamera.ScreenPointToRay(Input.mousePosition);
+        private Camera currentCamera;
+        private Vector2 oldHoverGridPosition;
 
-        if (Physics.Raycast(ray, out rayHit, rayDistance, detectionlayer))
+        private void Start()
         {
-            TileController tile = rayHit.collider.GetComponent<TileController>();
-            if (IsInvalidTile(tile) || IsOldPosition(tile))
-            {
-                return;
-            }
+            currentCamera = Camera.main;
+        }
 
+        public void InitializeService(EventService eventService)
+        {
+            this.eventService = eventService;
+        }
+
+        private void Update()
+        {
+            RunHoverDetection();
+        }
+
+        private void RunHoverDetection()
+        {
+            ray = currentCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out rayHit, rayDistance, detectionlayer))
+            {
+                TileController tile = rayHit.collider.GetComponent<TileController>();
+                if (IsInvalidTile(tile) || IsOldPosition(tile))
+                {
+                    return;
+                }
+
+                UpdateGridPosition(tile);
+            }
+        }
+
+        private void UpdateGridPosition(TileController tile)
+        {
             oldHoverGridPosition = tile.GetTileGridPosition();
             eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition);
         }
-    }
 
-    private bool IsOldPosition(TileController tile)
-    {
-        return oldHoverGridPosition == tile.GetTileGridPosition();
-    }
-
-    private static bool IsInvalidTile(TileController tile)
-    {
-        return tile == null;
+        private bool IsInvalidTile(TileController tile) => tile == null;
+        private bool IsOldPosition(TileController tile) => oldHoverGridPosition == tile.GetTileGridPosition();
     }
 }
