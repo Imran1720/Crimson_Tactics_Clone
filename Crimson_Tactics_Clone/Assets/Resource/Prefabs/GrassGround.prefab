@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5353125644956888576}
   - component: {fileID: 247752903361467200}
   - component: {fileID: 3197872027507061484}
-  m_Layer: 0
+  - component: {fileID: 159485601983877274}
+  m_Layer: 6
   m_Name: GrassGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,5 +104,17 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.99625134, y: 0.20000668, z: 0.99625146}
+  m_Size: {x: 1, y: 0.20000668, z: 1}
   m_Center: {x: 0, y: 0.09999999, z: -0.000000044703484}
+--- !u!114 &159485601983877274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727370580729608593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234fe346c7c326c48afdc51143d90be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

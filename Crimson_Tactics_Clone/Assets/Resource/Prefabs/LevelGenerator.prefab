@@ -50,7 +50,7 @@ MonoBehaviour:
     tileButtonWidth: 10
     actionButtonWidth: 100
     actionButtonHeight: 30
-  tilePrefab: {fileID: 4727370580729608593, guid: 7c479b6a0be8d0d41ac62e21200dce2f,
+  tilePrefab: {fileID: 159485601983877274, guid: 7c479b6a0be8d0d41ac62e21200dce2f,
     type: 3}
   gameService: {fileID: 0}
   levelContainerPrefab: {fileID: 2594934791336616547, guid: 272e42fbc08a5e14aa04c8c7f9f531a5,

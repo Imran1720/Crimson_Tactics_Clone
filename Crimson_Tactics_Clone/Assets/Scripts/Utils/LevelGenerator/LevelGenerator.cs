@@ -7,7 +7,7 @@ namespace CrimsonTactics.Level
     {
         [Header("Level-Data")]
         [SerializeField] private LevelLayoutSettings layoutSettings;
-        [SerializeField] private GameObject tilePrefab;
+        [SerializeField] private TileController tilePrefab;
         [SerializeField] private Transform gameService;
         [SerializeField] private Transform levelContainerPrefab;
 
@@ -32,6 +32,7 @@ namespace CrimsonTactics.Level
         //This method Instantiates the level tiles in the scene based on the grid size provided (default: 10x10).
         public void GenerateGrid()
         {
+            Vector3 tilePosition = Vector3.zero;
             if (gridTileArray == null)
             {
                 return;
@@ -44,7 +45,8 @@ namespace CrimsonTactics.Level
             {
                 for (int j = 0; j < gridSizeY; j++)
                 {
-                    GameObject spawnedTile = Instantiate(tilePrefab, GetTilePosition(i, j), Quaternion.identity);
+                    tilePosition = GetTilePosition(i, j);
+                    TileController spawnedTile = Instantiate(tilePrefab, tilePosition, Quaternion.identity);
                     spawnedTile.transform.SetParent(levelContainer, false);
                 }
             }
