@@ -1,3 +1,4 @@
+using CrimsonTactics.Level;
 using TMPro;
 using UnityEngine;
 
@@ -10,11 +11,13 @@ namespace CrimsonTactics.UI
         private float timer;
         private float visibleDuration;
         private TextMeshProUGUI tilePositionUIText;
+        private TextMeshProUGUI tileStatusUIText;
 
-        public TilePositionUI(float visibleDuration, UIService uiService, TextMeshProUGUI text)
+        public TilePositionUI(float visibleDuration, UIService uiService, TextMeshProUGUI text, TextMeshProUGUI statusText)
         {
             this.uiService = uiService;
-            this.tilePositionUIText = text;
+            tilePositionUIText = text;
+            tileStatusUIText = statusText;
             this.visibleDuration = visibleDuration;
         }
 
@@ -28,11 +31,12 @@ namespace CrimsonTactics.UI
             }
         }
 
-        public void SetTilePosition(Vector2 tilePosition)
+        public void SetTilePosition(Vector2 tilePosition, TileType tileType)
         {
             timer = visibleDuration;
             uiService.ShowTilePositionUI();
             tilePositionUIText.text = $"({tilePosition.x},{tilePosition.y})";
+            tileStatusUIText.text = tileType == TileType.OBSTACLE ? "obstacle" : "Free";
         }
     }
 }

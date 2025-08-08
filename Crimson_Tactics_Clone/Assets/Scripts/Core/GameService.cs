@@ -22,13 +22,13 @@ namespace CrimsonTactics.Core
         {
             eventService = new EventService();
             obstacleService = new ObstacleService(this, tileDataSO);
-            InitializeServices();
+            InitializeData();
         }
 
-        private void InitializeServices()
+        private void InitializeData()
         {
-            uiService.InitializeServices(eventService);
-            playerController.InitializeService(eventService);
+            uiService.InitializeData(eventService);
+            playerController.InitializeData(eventService);
         }
 
         public EventService GetEventService() => eventService;

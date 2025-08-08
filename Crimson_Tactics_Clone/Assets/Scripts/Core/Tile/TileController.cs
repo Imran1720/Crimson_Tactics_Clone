@@ -23,7 +23,7 @@ namespace CrimsonTactics.Tile
 
         public Vector2 GetTileGridPosition() => tileGridPosition;
         public Vector3 GetTileWorldPosition() => tileWorldPosition;
-
+        public TileType GetTileType() => currentTileType;
         public bool IsTileOccupied() => currentTileType == TileType.OBSTACLE;
     }
 }

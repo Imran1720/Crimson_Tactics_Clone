@@ -7,6 +7,7 @@ namespace CrimsonTactics.Tile
     public class ObstacleService
     {
         private ObstacleTileDataSO obstacleTileDataSO;
+
         private GameService gameService;
         public ObstacleService(GameService gameService, ObstacleTileDataSO obstacleTileDataSO)
         {
