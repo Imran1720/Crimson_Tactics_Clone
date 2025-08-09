@@ -24,7 +24,7 @@ namespace CrimsonTactics.Player
 
         private void OnTragetTileSelected(TileController tileController)
         {
-            //playerUnitView.SetTarget(tileController.transform);
+            playerUnitView.SetTarget(tileController.GetTileGridPosition());
         }
 
         public void InvokePlayerDestinationReached()

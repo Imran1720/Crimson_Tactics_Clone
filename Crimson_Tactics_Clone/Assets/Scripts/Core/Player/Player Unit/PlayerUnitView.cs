@@ -1,34 +1,38 @@
+using CrimsonTactics.AI;
 using CrimsonTactics.Player;
+using CrimsonTactics.Tile;
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerUnitView : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private List<Vector3Int> targetCheckPoints;
+    [SerializeField] private List<Vector3Int> targetCheckPointList;
+    [SerializeField] private ObstacleTileDataSO obstacleTileDataSO;
 
     private bool canUnitMove;
 
     private Transform target;
     private Vector3Int targetCheckpoint;
+    private Vector3Int finalPosition;
     private Quaternion currentRotation;
     private Vector3 velocity;
     private PlayerUnitController playerUnitController;
+    private TacticalPathfinding pathfinding;
 
     private void Start()
     {
         target = null;
         canUnitMove = false;
+        pathfinding = new TacticalPathfinding(obstacleTileDataSO);
     }
 
     private void Update()
     {
-        if (targetCheckPoints.Count <= 0 && IsPlayerUnitAtTarget())
+        if (targetCheckPointList.Count <= 0 && IsPlayerUnitAtTarget())
         {
             StopUnit();
             return;
@@ -43,6 +47,7 @@ public class PlayerUnitView : MonoBehaviour
         velocity = Vector3.zero;
         rb.velocity = Vector3Int.zero;
         transform.rotation = Quaternion.Euler(0, -90, 0);
+        transform.position = finalPosition;
         playerUnitController.InvokePlayerDestinationReached();
     }
 
@@ -50,8 +55,8 @@ public class PlayerUnitView : MonoBehaviour
     {
         if (IsPlayerUnitAtTarget())
         {
-            targetCheckpoint = targetCheckPoints[0];
-            targetCheckPoints.RemoveAt(0);
+            targetCheckpoint = targetCheckPointList[0];
+            targetCheckPointList.RemoveAt(0);
         }
     }
 
@@ -61,22 +66,6 @@ public class PlayerUnitView : MonoBehaviour
         direction.y = transform.position.y;
 
         velocity = direction * moveSpeed;
-
-        //Vector3 direction = (target.position - transform.position).normalized;
-        //direction.y = 0;
-        //velocity = direction * moveSpeed;
-        //rb.velocity = velocity;
-
-        //if (IsPlayerUnitAtTarget())
-        //{
-        //    canUnitMove = false;
-        //    currentRotation = transform.rotation;
-        //    rb.velocity = Vector3.zero;
-        //    transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
-        //    velocity = Vector3.zero;
-        //    playerUnitController.InvokePlayerDestinationReached();
-        //}
-
         RotateUnit(direction);
     }
 
@@ -97,17 +86,22 @@ public class PlayerUnitView : MonoBehaviour
     }
 
     public void SetPlayerUnitController(PlayerUnitController unitController) => playerUnitController = unitController;
-    public void SetTarget(Transform target)
+    public void SetTarget(Vector2Int targetPosition)
     {
-        canUnitMove = true;
-        this.target = target;
+        Vector3Int targetGridPosition = new Vector3Int(targetPosition.x, (int)transform.position.y, targetPosition.y);
+        finalPosition = targetGridPosition;
+        Vector3Int currentPosition = GetPlayerUnitPosition();
+        pathfinding.SetPathfindingData(currentPosition, targetGridPosition);
+
+        targetCheckPointList.Clear();
+        targetCheckPointList = pathfinding.GetCheckpoints();
     }
 
     public Vector3Int GetPlayerUnitPosition()
     {
-        int x = (int)transform.position.x;
+        int x = (int)Mathf.Floor(transform.position.x);
         int y = (int)transform.position.y;
-        int z = (int)transform.position.z;
+        int z = (int)Mathf.Floor(transform.position.z);
 
         return new Vector3Int(x, y, z);
     }
