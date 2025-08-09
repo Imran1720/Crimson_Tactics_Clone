@@ -17,13 +17,13 @@ Each functionality below will be implemented in a separate branch. Once complete
 ### 2️⃣ Obstacle System
 - [x] Custom Editor Tool with toggleable grid  
 - [x] ScriptableObject stores obstacle data
-- [ ] ObstacleManager renders red spheres
+- [x] ObstacleManager renders red spheres
 
 ---
 
 ### 3️⃣ Player Pathfinding
-- [ ] A* algorithm  
-- [ ] Animated step-by-step movement  
+- [ ] Pathfinding algorithm  
+- [ ] Animated movement  
 - [ ] Obstacle-aware pathfinding
 
 ---

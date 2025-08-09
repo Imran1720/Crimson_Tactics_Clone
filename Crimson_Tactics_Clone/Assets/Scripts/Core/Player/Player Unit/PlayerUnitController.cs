@@ -1,0 +1,33 @@
+
+using CrimsonTactics.Events;
+using CrimsonTactics.Tile;
+
+namespace CrimsonTactics.Player
+{
+    public class PlayerUnitController
+    {
+        PlayerUnitView playerUnitView;
+        private EventService eventService;
+
+        private TileController targetTile;
+
+        public PlayerUnitController(PlayerUnitView playerUnitView, EventService eventService)
+        {
+            this.playerUnitView = playerUnitView;
+            this.eventService = eventService;
+
+            playerUnitView.SetPlayerUnitController(this);
+            eventService.onTargetTileSelected.AddEventListener(OnTragetTileSelected);
+        }
+
+        private void OnTragetTileSelected(TileController tileController)
+        {
+            playerUnitView.SetTarget(tileController.transform);
+        }
+
+        public void InvokePlayerDestinationReached()
+        {
+            eventService.onPlayerReachedTarget.InvokeEvent();
+        }
+    }
+}

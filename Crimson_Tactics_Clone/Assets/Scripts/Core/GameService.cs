@@ -10,19 +10,37 @@ namespace CrimsonTactics.Core
     {
         private EventService eventService;
         private ObstacleService obstacleService;
+        private PlayerUnitService playerUnitService;
 
+        [Header("Dependencies")]
         [SerializeField] private UIService uiService;
-        [SerializeField] private PlayerController playerController;
-        [SerializeField] private ObstacleTileDataSO tileDataSO;
+        [SerializeField] private PlayerInputController playerController;
 
+        [Header("Tile-Data")]
         [SerializeField] private Transform tileContainer;
         [SerializeField] private TileController obstaclePrefab;
+        [SerializeField] private ObstacleTileDataSO tileDataSO;
+
+        [Header("Player-Unit-Data")]
+        [SerializeField] private PlayerUnitView playerUnitView;
+        [SerializeField] private Vector3Int minSpawnPosition;
+        [SerializeField] private Vector3Int maxSpawnPosition;
 
         private void Start()
         {
             eventService = new EventService();
             obstacleService = new ObstacleService(this, tileDataSO);
+            Vector3 playerSpawnPosition = GetSpawnPosiition();
+            playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+
             InitializeData();
+        }
+
+        private Vector3 GetSpawnPosiition()
+        {
+            int spawnPositionX = Random.Range(minSpawnPosition.x, maxSpawnPosition.x);
+            int spawnPositionz = Random.Range(minSpawnPosition.z, maxSpawnPosition.z);
+            return new Vector3(spawnPositionX, minSpawnPosition.y, spawnPositionz);
         }
 
         private void InitializeData()
