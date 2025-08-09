@@ -9,11 +9,15 @@ namespace CrimsonTactics.Level
     {
         [Header("Level-Data")]
         [SerializeField] private Transform gameService;
-        [SerializeField] private TileController tilePrefab;
-        [SerializeField] private ObstacleTileDataSO tileDataSO;
         [SerializeField] private Transform levelContainerPrefab;
+
+        [SerializeField] private TileController tilePrefab;
+
         [SerializeField] private LevelLayoutSettings layoutSettings;
         [SerializeField] private float obstacleOffset;
+
+        [SerializeField] private ObstacleTileDataSO tileDataSO;
+        [SerializeField] private LevelTileDataSO levelTileDataSO;
 
         private Transform levelContainer;
 
@@ -32,14 +36,16 @@ namespace CrimsonTactics.Level
             gridSizeY = layoutSettings.gridSizeY;
 
             gridTileArray = new TileType[gridSizeX, gridSizeY];
-
+            levelTileDataSO.tileDataList.Clear();
+            levelTileDataSO.row = gridSizeX;
+            levelTileDataSO.col = gridSizeY;
         }
 
         //This method Instantiates the level tiles in the scene based on the grid size provided (default: 10x10).
         public void GenerateGrid()
         {
             Vector3 tilePosition = Vector3.zero;
-            tileDataSO.InitializeData(gridSizeX, gridSizeY, obstacleCount);
+            tileDataSO.InitializeData(obstacleCount);
             if (gridTileArray == null)
             {
                 return;
@@ -62,7 +68,8 @@ namespace CrimsonTactics.Level
                         tileDataSO.AddObstacleTilePosition(obstacleOffsetPosition);
                     }
 
-                    tileDataSO.AddTilePosition(new Vector3Int(i, 0, j));
+                    Vector3Int position = new Vector3Int(i, 0, j);
+                    levelTileDataSO.tileDataList.Add(new TileStorageData(position, gridTileArray[i, j]));
                 }
             }
         }

@@ -14,13 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilesInRow: 10
   tilesInColumn: 10
-  obstaclePositionList:
-  - {x: -1, y: 0.2, z: -1}
-  - {x: 0, y: 0.2, z: 0}
-  - {x: 1, y: 0.2, z: 1}
-  - {x: 2, y: 0.2, z: 2}
-  - {x: 3, y: 0.2, z: 3}
-  - {x: 4, y: 0.2, z: 4}
+  obstaclePositionList: []
   tilePositionList:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}

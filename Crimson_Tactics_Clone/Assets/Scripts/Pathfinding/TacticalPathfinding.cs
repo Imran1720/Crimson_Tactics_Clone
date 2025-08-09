@@ -1,4 +1,3 @@
-using CrimsonTactics.Tile;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +5,7 @@ namespace CrimsonTactics.AI
 {
     public class TacticalPathfinding
     {
-        private ObstacleTileDataSO obstacleTileDataSO;
-
+        private LevelTileDataSO levelTileDataSO;
         private Vector3Int startPosition;
         private Vector3Int targetPosition;
         private Vector3Int movementVector;
@@ -17,9 +15,9 @@ namespace CrimsonTactics.AI
         private int movementVectorX;
         private int movementVectorZ;
 
-        public TacticalPathfinding(ObstacleTileDataSO obstacleTileDataSO)
+        public TacticalPathfinding(LevelTileDataSO levelTileDataSO)
         {
-            this.obstacleTileDataSO = obstacleTileDataSO;
+            this.levelTileDataSO = levelTileDataSO;
         }
 
         public void SetPathfindingData(Vector3Int startPosition, Vector3Int targetPosition)
@@ -59,6 +57,21 @@ namespace CrimsonTactics.AI
             movementVector = Vector3Int.zero;
 
             return checkpointsList;
+        }
+
+        public void GetMoveCheckpoints()
+        {
+            checkpointsList.Clear();
+
+            while (startPosition.x != targetPosition.x)
+            {
+
+            }
+
+        }
+
+        public void CheckPossibleMove()
+        {
         }
     }
 }

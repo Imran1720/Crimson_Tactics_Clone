@@ -19,11 +19,11 @@ namespace CrimsonTactics.Player
         private void SpawnPlayer(Vector3 spawnPosition, EventService eventService)
         {
 
-            unitView = GameObject.Instantiate(unitPrefab);
-            unitView.transform.position = spawnPosition;
+            unitView = GameObject.Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
             unitcontroller = new PlayerUnitController(unitView, eventService);
         }
 
         public int GetPlayerUnitPosistionY() => (int)unitView.transform.position.y;
+        public Transform GetUnitTransform() => unitView.transform;
     }
 }

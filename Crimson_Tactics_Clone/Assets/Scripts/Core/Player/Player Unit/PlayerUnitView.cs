@@ -11,7 +11,8 @@ public class PlayerUnitView : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private List<Vector3Int> targetCheckPointList;
-    [SerializeField] private ObstacleTileDataSO obstacleTileDataSO;
+    [SerializeField] private LevelTileDataSO levelTileDataSO;
+    [SerializeField] private Animator currentAnimator;
 
     private bool canUnitMove;
 
@@ -27,11 +28,14 @@ public class PlayerUnitView : MonoBehaviour
     {
         target = null;
         canUnitMove = false;
-        pathfinding = new TacticalPathfinding(obstacleTileDataSO);
+        finalPosition = GetPlayerUnitPosition();
+        targetCheckpoint = GetPlayerUnitPosition();
+        pathfinding = new TacticalPathfinding(levelTileDataSO);
     }
 
     private void Update()
     {
+        currentAnimator.SetFloat("Velocity", rb.velocity.magnitude);
         if (targetCheckPointList.Count <= 0 && IsPlayerUnitAtTarget())
         {
             StopUnit();

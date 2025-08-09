@@ -1,3 +1,4 @@
+using Cinemachine;
 using CrimsonTactics.Events;
 using CrimsonTactics.Player;
 using CrimsonTactics.Tile;
@@ -16,6 +17,7 @@ namespace CrimsonTactics.Core
         [Header("Dependencies")]
         [SerializeField] private UIService uiService;
         [SerializeField] private PlayerInputController playerController;
+        [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
         [Header("Tile-Data")]
         [SerializeField] private Transform tileContainer;
@@ -35,6 +37,13 @@ namespace CrimsonTactics.Core
             playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
 
             InitializeData();
+            SetCameraTarget();
+        }
+
+        private void SetCameraTarget()
+        {
+            cinemachineVirtualCamera.Follow = playerUnitService.GetUnitTransform();
+            cinemachineVirtualCamera.LookAt = playerUnitService.GetUnitTransform();
         }
 
         private Vector3 GetSpawnPosiition()
@@ -48,14 +57,6 @@ namespace CrimsonTactics.Core
         {
             uiService.InitializeData(eventService);
             playerController.InitializeData(eventService);
-
-            SetTilePositionArray();
-        }
-
-        private void SetTilePositionArray()
-        {
-            int rows = tileDataSO.tilesInRow;
-            int columns = tileDataSO.tilesInColumn;
         }
 
         public EventService GetEventService() => eventService;
