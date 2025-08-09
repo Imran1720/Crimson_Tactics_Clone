@@ -1,6 +1,8 @@
 
 using CrimsonTactics.Events;
+using CrimsonTactics.Level;
 using CrimsonTactics.Tile;
+using UnityEngine;
 
 namespace CrimsonTactics.Player
 {
@@ -22,7 +24,7 @@ namespace CrimsonTactics.Player
 
         private void OnTragetTileSelected(TileController tileController)
         {
-            playerUnitView.SetTarget(tileController.transform);
+            //playerUnitView.SetTarget(tileController.transform);
         }
 
         public void InvokePlayerDestinationReached()

@@ -2,6 +2,7 @@ using CrimsonTactics.Events;
 using CrimsonTactics.Player;
 using CrimsonTactics.Tile;
 using CrimsonTactics.UI;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CrimsonTactics.Core
@@ -47,6 +48,14 @@ namespace CrimsonTactics.Core
         {
             uiService.InitializeData(eventService);
             playerController.InitializeData(eventService);
+
+            SetTilePositionArray();
+        }
+
+        private void SetTilePositionArray()
+        {
+            int rows = tileDataSO.tilesInRow;
+            int columns = tileDataSO.tilesInColumn;
         }
 
         public EventService GetEventService() => eventService;

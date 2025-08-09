@@ -1,5 +1,6 @@
 using CrimsonTactics.Player;
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,9 +10,12 @@ public class PlayerUnitView : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private List<Vector3Int> targetCheckPoints;
+
     private bool canUnitMove;
 
     private Transform target;
+    private Vector3Int targetCheckpoint;
     private Quaternion currentRotation;
     private Vector3 velocity;
     private PlayerUnitController playerUnitController;
@@ -24,31 +28,54 @@ public class PlayerUnitView : MonoBehaviour
 
     private void Update()
     {
-        if (!canUnitMove || target == null)
+        if (targetCheckPoints.Count <= 0 && IsPlayerUnitAtTarget())
         {
-            transform.rotation = currentRotation;
+            StopUnit();
             return;
         }
 
+        SetTargetCheckpoint();
         CalculateMoveVelocity();
+    }
+
+    private void StopUnit()
+    {
+        velocity = Vector3.zero;
+        rb.velocity = Vector3Int.zero;
+        transform.rotation = Quaternion.Euler(0, -90, 0);
+        playerUnitController.InvokePlayerDestinationReached();
+    }
+
+    private void SetTargetCheckpoint()
+    {
+        if (IsPlayerUnitAtTarget())
+        {
+            targetCheckpoint = targetCheckPoints[0];
+            targetCheckPoints.RemoveAt(0);
+        }
     }
 
     private void CalculateMoveVelocity()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        direction.y = 0;
-        velocity = direction * moveSpeed;
-        rb.velocity = velocity;
+        Vector3 direction = (targetCheckpoint - transform.position).normalized;
+        direction.y = transform.position.y;
 
-        if (IsPlayerUnitAtTarget())
-        {
-            canUnitMove = false;
-            currentRotation = transform.rotation;
-            rb.velocity = Vector3.zero;
-            transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
-            velocity = Vector3.zero;
-            playerUnitController.InvokePlayerDestinationReached();
-        }
+        velocity = direction * moveSpeed;
+
+        //Vector3 direction = (target.position - transform.position).normalized;
+        //direction.y = 0;
+        //velocity = direction * moveSpeed;
+        //rb.velocity = velocity;
+
+        //if (IsPlayerUnitAtTarget())
+        //{
+        //    canUnitMove = false;
+        //    currentRotation = transform.rotation;
+        //    rb.velocity = Vector3.zero;
+        //    transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
+        //    velocity = Vector3.zero;
+        //    playerUnitController.InvokePlayerDestinationReached();
+        //}
 
         RotateUnit(direction);
     }
@@ -61,8 +88,7 @@ public class PlayerUnitView : MonoBehaviour
 
     private bool IsPlayerUnitAtTarget()
     {
-        Vector3 targetposition = new Vector3(target.position.x, transform.position.y, target.position.z);
-        return Vector3.Distance(targetposition, transform.position) <= 0.1f;
+        return Vector3.Distance(targetCheckpoint, transform.position) <= 0.1f;
     }
 
     private void FixedUpdate()
@@ -75,5 +101,14 @@ public class PlayerUnitView : MonoBehaviour
     {
         canUnitMove = true;
         this.target = target;
+    }
+
+    public Vector3Int GetPlayerUnitPosition()
+    {
+        int x = (int)transform.position.x;
+        int y = (int)transform.position.y;
+        int z = (int)transform.position.z;
+
+        return new Vector3Int(x, y, z);
     }
 }

@@ -37,7 +37,7 @@ namespace CrimsonTactics.UI
             eventService.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
         }
 
-        private void UpdateTilePositionUI(Vector2 position, TileType tileType)
+        private void UpdateTilePositionUI(Vector2Int position, TileType tileType)
         {
             tilePositionUI.SetTilePosition(position, tileType);
         }

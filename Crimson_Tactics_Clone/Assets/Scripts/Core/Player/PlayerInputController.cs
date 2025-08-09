@@ -17,7 +17,7 @@ namespace CrimsonTactics.Player
         private RaycastHit rayHit;
 
         private Camera currentCamera;
-        private Vector2 oldHoverGridPosition;
+        private Vector2Int oldHoverGridPosition;
         private TileController targtTile;
 
         private bool isInputEnabled;

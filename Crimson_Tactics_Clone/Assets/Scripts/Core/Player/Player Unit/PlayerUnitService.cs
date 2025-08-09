@@ -23,5 +23,7 @@ namespace CrimsonTactics.Player
             unitView.transform.position = spawnPosition;
             unitcontroller = new PlayerUnitController(unitView, eventService);
         }
+
+        public int GetPlayerUnitPosistionY() => (int)unitView.transform.position.y;
     }
 }

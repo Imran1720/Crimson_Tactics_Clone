@@ -1,5 +1,6 @@
 using CrimsonTactics.Tile;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace CrimsonTactics.Level
@@ -31,14 +32,14 @@ namespace CrimsonTactics.Level
             gridSizeY = layoutSettings.gridSizeY;
 
             gridTileArray = new TileType[gridSizeX, gridSizeY];
+
         }
 
         //This method Instantiates the level tiles in the scene based on the grid size provided (default: 10x10).
         public void GenerateGrid()
         {
             Vector3 tilePosition = Vector3.zero;
-            tileDataSO.InitializeList(obstacleCount);
-
+            tileDataSO.InitializeData(gridSizeX, gridSizeY, obstacleCount);
             if (gridTileArray == null)
             {
                 return;
@@ -60,6 +61,8 @@ namespace CrimsonTactics.Level
                         Vector3 obstacleOffsetPosition = new Vector3(tilePosition.x, tilePosition.y + obstacleOffset, tilePosition.z);
                         tileDataSO.AddObstacleTilePosition(obstacleOffsetPosition);
                     }
+
+                    tileDataSO.AddTilePosition(new Vector3Int(i, 0, j));
                 }
             }
         }

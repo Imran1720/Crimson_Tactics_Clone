@@ -6,16 +6,29 @@ namespace CrimsonTactics.Tile
     [CreateAssetMenu(fileName = "ObstacleTileDataSO", menuName = "SO/ObstacleTileDataSO")]
     public class ObstacleTileDataSO : ScriptableObject
     {
-        public List<Vector3> obstaclePositionList;
+        public int tilesInRow;
+        public int tilesInColumn;
 
-        public void InitializeList(int size)
+        public List<Vector3> obstaclePositionList;
+        public List<Vector3Int> tilePositionList;
+
+        public void InitializeData(int sizeX, int sizeY, int ObstacleCount)
         {
-            obstaclePositionList = new List<Vector3>(size);
+            tilesInRow = sizeX;
+            tilesInColumn = sizeY;
+            obstaclePositionList = new List<Vector3>(ObstacleCount);
+            tilePositionList = new List<Vector3Int>();
         }
+
 
         public void AddObstacleTilePosition(Vector3 position)
         {
             obstaclePositionList.Add(new Vector3(position.x, position.y, position.z));
+        }
+
+        public void AddTilePosition(Vector3Int position)
+        {
+            tilePositionList.Add(position);
         }
     }
 }

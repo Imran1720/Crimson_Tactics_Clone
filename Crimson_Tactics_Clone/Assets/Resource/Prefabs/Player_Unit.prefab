@@ -1385,6 +1385,10 @@ MonoBehaviour:
   rb: {fileID: 4134689117091941910}
   moveSpeed: 1
   rotationSpeed: 30
+  targetCheckPoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!136 &7015897414082499642
 CapsuleCollider:
   m_ObjectHideFlags: 0
