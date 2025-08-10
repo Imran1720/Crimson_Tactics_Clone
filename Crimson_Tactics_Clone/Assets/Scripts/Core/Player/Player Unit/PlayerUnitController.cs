@@ -43,7 +43,12 @@ namespace CrimsonTactics.Player
         }
 
         public bool IsCheckpointListEmpty() => targetCheckPointList.Count == 0;
+        protected override void SetUnitPosition(Vector3Int targetCheckpoint)
+        {
+            playerUnitView.SetUnitPosition(targetCheckpoint);
+        }
         protected override Vector3Int GetUnitPosition() => playerUnitView.GetPlayerUnitPosition();
+        protected override Vector3 GetUnitWorldPosition() => playerUnitView.GetPlayerWorldPosition();
         protected override void SetVelocity() => playerUnitView.SetVelocity(CalculateMoveVelocity());
         protected override void StopUnit(Vector3Int targetCheckpoint) => playerUnitView.StopUnit(targetCheckpoint);
         protected override void RotateCurrentUnit(Quaternion lookRotation) => playerUnitView.RotateUnit(lookRotation);

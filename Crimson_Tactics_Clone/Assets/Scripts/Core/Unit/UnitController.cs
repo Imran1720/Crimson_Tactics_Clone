@@ -1,6 +1,7 @@
 using CrimsonTactics.AI;
 using CrimsonTactics.Player;
 using CrimsonTactics.Tile;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,6 +65,8 @@ namespace CrimsonTactics.Unit
             }
         }
 
+        protected virtual void SetUnitPosition(Vector3Int targetCheckpoint) { }
+
         //Setting target and data for calculating the checkpoints for unit to follow
         public void SetTarget(Vector3Int targetPosition)
         {
@@ -84,9 +87,9 @@ namespace CrimsonTactics.Unit
         // checkpoint : target, unitTransform : current unit transform
         public Vector3 CalculateMoveVelocity()
         {
-            Vector3 unitTransform = GetUnitPosition();
+            Vector3 unitTransform = GetUnitWorldPosition();
             Vector3 direction = (targetCheckpoint - unitTransform).normalized;
-            direction.y = unitTransform.y;
+            direction.y = 0;
             return direction * moveSpeed;
         }
 
@@ -94,14 +97,14 @@ namespace CrimsonTactics.Unit
         public Quaternion CalculateLookRotation(Vector3Int checkpoint, Vector3 unitTransform, float rotationSpeed)
         {
             Vector3 direction = (checkpoint - unitTransform).normalized;
-            direction.y = unitTransform.y;
+            direction.y = 0;
 
             return Quaternion.LookRotation(direction);
         }
 
         private void RotateUnit()
         {
-            Vector3 position = GetUnitPosition();
+            Vector3 position = GetUnitWorldPosition();
             Quaternion lookRotation = CalculateLookRotation(targetCheckpoint, position, rotationSpeed);
             RotateCurrentUnit(lookRotation);
         }
@@ -111,14 +114,13 @@ namespace CrimsonTactics.Unit
         protected virtual void StopUnit(Vector3Int targetCheckpoint) { }
         protected virtual void RotateCurrentUnit(Quaternion lookRotation) { }
         protected virtual Vector3Int GetUnitPosition() => Vector3Int.zero;
-
+        protected virtual Vector3 GetUnitWorldPosition() => Vector3.zero;
         public Vector3Int GetTargetPosition() => finalPosition;
         private bool UnitAtFinalTarget() => IsUnitAtTargetCheckpoint() && targetCheckPointList.Count <= 0;
         private bool IsUnitAtTargetCheckpoint()
         {
-            Vector3 targetpos = new Vector3(targetCheckpoint.x, targetCheckpoint.y, targetCheckpoint.z);
-
-            return Vector3.Distance(targetpos, GetUnitPosition()) <= 0.1f;
+            Debug.Log(Vector3.Distance(targetCheckpoint, GetUnitWorldPosition()));
+            return Vector3.Distance(targetCheckpoint, GetUnitWorldPosition()) <= 0.1f;
         }
     }
 }

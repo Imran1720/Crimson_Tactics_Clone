@@ -44,6 +44,8 @@ namespace CrimsonTactics.AI
             this.startPosition = startPosition;
             this.targetPosition = targetPosition;
 
+            startPosition.y = 0;
+            targetPosition.y = 0;
             checkpointsList = new List<Vector3Int>();
             // checkpointsList2 = new Stack<Vector3Int>();
 

@@ -32,10 +32,9 @@ public class UnitView : MonoBehaviour
     public void StopUnit(Vector3 position)
     {
         velocity = Vector3.zero;
-        rb.velocity = velocity;
         SetDefaultRotation();
+        transform.position = position;
         SetRigidbodyKinematic();
-
     }
     public void RotateUnit(Quaternion lookRotation)
     {
@@ -57,6 +56,7 @@ public class UnitView : MonoBehaviour
     }
     public Vector3 GetPlayerWorldPosition() => transform.position;
 
+    public void SetUnitPosition(Vector3Int position) => transform.position = position;
     public void SetVelocity(Vector3 velocity)
     {
         this.velocity = velocity;
