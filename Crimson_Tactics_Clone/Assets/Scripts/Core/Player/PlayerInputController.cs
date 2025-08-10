@@ -32,7 +32,7 @@ namespace CrimsonTactics.Player
         public void InitializeData(EventService eventService)
         {
             this.eventService = eventService;
-            eventService.onPlayerReachedTarget.AddEventListener(PlayerReachedTarget);
+            eventService.onEnemyReachedTarget.AddEventListener(OnEnemyReachedTarget);
         }
 
         private void Update()
@@ -82,7 +82,7 @@ namespace CrimsonTactics.Player
             eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition, tile.GetTileType());
         }
 
-        private void PlayerReachedTarget() => EnableInput();
+        private void OnEnemyReachedTarget() => EnableInput();
 
         private void EnableInput() => isInputEnabled = true;
         private void DisableInput() => isInputEnabled = false;

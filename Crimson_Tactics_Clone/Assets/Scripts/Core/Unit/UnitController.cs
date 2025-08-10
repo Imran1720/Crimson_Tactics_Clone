@@ -46,7 +46,6 @@ namespace CrimsonTactics.Unit
             if (UnitAtFinalTarget())
             {
                 StopUnit(targetCheckpoint);
-                InvokeUnitDestinationReached();
                 return;
             }
 
@@ -56,12 +55,16 @@ namespace CrimsonTactics.Unit
         }
 
         // Updating checkpoints based on the list   
-        private void SetTargetCheckpoint()
+        protected void SetTargetCheckpoint()
         {
             if (IsUnitAtTargetCheckpoint())
             {
                 targetCheckpoint = targetCheckPointList[0];
                 targetCheckPointList.RemoveAt(0);
+                if (targetCheckPointList.Count == 0)
+                {
+                    InvokeUnitDestinationReached();
+                }
             }
         }
 
@@ -77,7 +80,7 @@ namespace CrimsonTactics.Unit
         }
 
         //calculating checkpoints
-        private void CalculateCheckpoints()
+        protected virtual void CalculateCheckpoints()
         {
             targetCheckPointList.Clear();
             targetCheckPointList = pathfinding.GetCheckpoints();
@@ -102,13 +105,14 @@ namespace CrimsonTactics.Unit
             return Quaternion.LookRotation(direction);
         }
 
-        private void RotateUnit()
+        protected void RotateUnit()
         {
             Vector3 position = GetUnitWorldPosition();
             Quaternion lookRotation = CalculateLookRotation(targetCheckpoint, position, rotationSpeed);
             RotateCurrentUnit(lookRotation);
         }
 
+        protected virtual bool IsPlayer() => false;
         protected virtual void SetVelocity() { }
         protected virtual void InvokeUnitDestinationReached() { }
         protected virtual void StopUnit(Vector3Int targetCheckpoint) { }
@@ -116,10 +120,9 @@ namespace CrimsonTactics.Unit
         protected virtual Vector3Int GetUnitPosition() => Vector3Int.zero;
         protected virtual Vector3 GetUnitWorldPosition() => Vector3.zero;
         public Vector3Int GetTargetPosition() => finalPosition;
-        private bool UnitAtFinalTarget() => IsUnitAtTargetCheckpoint() && targetCheckPointList.Count <= 0;
-        private bool IsUnitAtTargetCheckpoint()
+        protected bool UnitAtFinalTarget() => IsUnitAtTargetCheckpoint() && targetCheckPointList.Count <= 0;
+        protected bool IsUnitAtTargetCheckpoint()
         {
-            Debug.Log(Vector3.Distance(targetCheckpoint, GetUnitWorldPosition()));
             return Vector3.Distance(targetCheckpoint, GetUnitWorldPosition()) <= 0.1f;
         }
     }

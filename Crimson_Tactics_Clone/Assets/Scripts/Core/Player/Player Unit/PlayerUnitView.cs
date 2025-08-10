@@ -1,8 +1,3 @@
-using CrimsonTactics.AI;
-using CrimsonTactics.Unit;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace CrimsonTactics.Player
 {
     public class PlayerUnitView : UnitView
@@ -25,7 +20,7 @@ namespace CrimsonTactics.Player
         {
             playerUnitController = unitController;
 
-            playerUnitController.InitializeData(currentUnitData, GetPlayerUnitPosition());
+            playerUnitController.InitializeData(currentUnitData, GetCurrentUnitPosition());
         }
     }
 }

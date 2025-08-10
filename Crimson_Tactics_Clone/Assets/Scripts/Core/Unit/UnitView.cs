@@ -6,7 +6,6 @@ public class UnitView : MonoBehaviour
     [Header("Core-Data")]
     [SerializeField] protected Rigidbody rb;
     [SerializeField] protected Animator currentAnimator;
-    [SerializeField] protected LevelTileDataSO levelTileDataSO;
     [SerializeField] protected UnitData currentUnitData;
 
     protected Vector3 velocity;
@@ -46,7 +45,7 @@ public class UnitView : MonoBehaviour
 
     protected void SetDefaultRotation() => transform.rotation = Quaternion.Euler(0, -90, 0);
 
-    public Vector3Int GetPlayerUnitPosition()
+    public Vector3Int GetCurrentUnitPosition()
     {
         int x = (int)Mathf.Floor(transform.position.x);
         int y = (int)transform.position.y;
@@ -54,7 +53,7 @@ public class UnitView : MonoBehaviour
 
         return new Vector3Int(x, y, z);
     }
-    public Vector3 GetPlayerWorldPosition() => transform.position;
+    public Vector3 GetUnitWorldPosition() => transform.position;
 
     public void SetUnitPosition(Vector3Int position) => transform.position = position;
     public void SetVelocity(Vector3 velocity)
