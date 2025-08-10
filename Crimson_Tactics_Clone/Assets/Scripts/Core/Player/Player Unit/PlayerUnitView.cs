@@ -1,112 +1,112 @@
 using CrimsonTactics.AI;
-using CrimsonTactics.Player;
-using CrimsonTactics.Tile;
-using System;
+using CrimsonTactics.Unit;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUnitView : MonoBehaviour
+namespace CrimsonTactics.Player
 {
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float rotationSpeed;
-    [SerializeField] private List<Vector3Int> targetCheckPointList;
-    [SerializeField] private LevelTileDataSO levelTileDataSO;
-    [SerializeField] private Animator currentAnimator;
-
-    private bool canUnitMove;
-
-    private Transform target;
-    private Vector3Int targetCheckpoint;
-    private Vector3Int finalPosition;
-    private Quaternion currentRotation;
-    private Vector3 velocity;
-    private PlayerUnitController playerUnitController;
-    private TacticalPathfinding pathfinding;
-
-    private void Start()
+    public class PlayerUnitView : MonoBehaviour
     {
-        target = null;
-        canUnitMove = false;
-        finalPosition = GetPlayerUnitPosition();
-        targetCheckpoint = GetPlayerUnitPosition();
-        pathfinding = new TacticalPathfinding(levelTileDataSO);
-    }
+        [Header("Core-Data")]
+        [SerializeField] private Rigidbody rb;
+        [SerializeField] private Animator currentAnimator;
+        [SerializeField] private LevelTileDataSO levelTileDataSO;
+        [SerializeField] private UnitData currentUnitData;
 
-    private void Update()
-    {
-        currentAnimator.SetFloat("Velocity", rb.velocity.magnitude);
-        if (targetCheckPointList.Count <= 0 && IsPlayerUnitAtTarget())
+        [Header("Locomotion-Data")]
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float rotationSpeed;
+
+        //// transform Data
+        //private Transform target;
+        //private Quaternion currentRotation;
+
+        private Vector3 velocity;
+        //private Vector3Int finalPosition;
+        //private Vector3Int targetCheckpoint;
+
+        //// Dependencies
+        //private TacticalPathfinding pathfinding;
+        //private List<Vector3Int> targetCheckPointList;
+        private PlayerUnitController playerUnitController;
+
+        private void Update()
         {
-            StopUnit();
-            return;
+            playerUnitController.Update();
+            SetAnimation();
         }
 
-        SetTargetCheckpoint();
-        CalculateMoveVelocity();
-    }
-
-    private void StopUnit()
-    {
-        velocity = Vector3.zero;
-        rb.velocity = Vector3Int.zero;
-        transform.rotation = Quaternion.Euler(0, -90, 0);
-        transform.position = finalPosition;
-        playerUnitController.InvokePlayerDestinationReached();
-    }
-
-    private void SetTargetCheckpoint()
-    {
-        if (IsPlayerUnitAtTarget())
+        private void FixedUpdate()
         {
-            targetCheckpoint = targetCheckPointList[0];
-            targetCheckPointList.RemoveAt(0);
+            rb.velocity = velocity;
         }
-    }
 
-    private void CalculateMoveVelocity()
-    {
-        Vector3 direction = (targetCheckpoint - transform.position).normalized;
-        direction.y = transform.position.y;
+        public void StopUnit(Vector3 position)
+        {
+            SetDefaultRotation();
+            velocity = Vector3.zero;
+            transform.position = position;
+        }
 
-        velocity = direction * moveSpeed;
-        RotateUnit(direction);
-    }
+        private void SetDefaultRotation() => transform.rotation = Quaternion.Euler(0, -90, 0);
 
-    private void RotateUnit(Vector3 direction)
-    {
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
-    }
+        //private void SetTargetCheckpoint()
+        //{
+        //    if (IsPlayerUnitAtTarget())
+        //    {
+        //        targetCheckpoint = targetCheckPointList[0];
+        //        targetCheckPointList.RemoveAt(0);
+        //    }
+        //}
 
-    private bool IsPlayerUnitAtTarget()
-    {
-        return Vector3.Distance(targetCheckpoint, transform.position) <= 0.1f;
-    }
+        public void RotateUnit(Quaternion lookRotation)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+        }
 
-    private void FixedUpdate()
-    {
-        rb.velocity = velocity;
-    }
+        //private bool IsPlayerUnitAtTarget() => Vector3.Distance(targetCheckpoint, transform.position) <= 0.1f;
 
-    public void SetPlayerUnitController(PlayerUnitController unitController) => playerUnitController = unitController;
-    public void SetTarget(Vector2Int targetPosition)
-    {
-        Vector3Int targetGridPosition = new Vector3Int(targetPosition.x, (int)transform.position.y, targetPosition.y);
-        finalPosition = targetGridPosition;
-        Vector3Int currentPosition = GetPlayerUnitPosition();
-        pathfinding.SetPathfindingData(currentPosition, targetGridPosition);
+        //public void SetTarget(Vector3Int targetPosition)
+        //{
+        //    finalPosition = targetPosition;
+        //    Vector3Int currentPosition = GetPlayerUnitPosition();
+        //    pathfinding.SetPathfindingData(currentPosition, targetPosition);
 
-        targetCheckPointList.Clear();
-        targetCheckPointList = pathfinding.GetCheckpoints();
-    }
+        //    CalculateCheckpoints();
+        //}
 
-    public Vector3Int GetPlayerUnitPosition()
-    {
-        int x = (int)Mathf.Floor(transform.position.x);
-        int y = (int)transform.position.y;
-        int z = (int)Mathf.Floor(transform.position.z);
+        //private void CalculateCheckpoints()
+        //{
+        //    targetCheckPointList.Clear();
+        //    targetCheckPointList = pathfinding.GetCheckpoints();
+        //}
 
-        return new Vector3Int(x, y, z);
+        // Removing float Values from player units transform
+        public Vector3Int GetPlayerUnitPosition()
+        {
+            int x = (int)Mathf.Floor(transform.position.x);
+            int y = (int)transform.position.y;
+            int z = (int)Mathf.Floor(transform.position.z);
+
+            return new Vector3Int(x, y, z);
+        }
+        public Vector3 GetPlayerWorldPosition() => transform.position;
+
+        private void SetAnimation()
+        {
+            currentAnimator.SetFloat("Velocity", rb.velocity.magnitude);
+        }
+
+        public void SetVelocity(Vector3 velocity)
+        {
+            this.velocity = velocity;
+        }
+
+        public void SetPlayerUnitController(PlayerUnitController unitController)
+        {
+            playerUnitController = unitController;
+
+            playerUnitController.InitializeData(currentUnitData, GetPlayerUnitPosition());
+        }
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace CrimsonTactics.Tile
 {
+    //This data type is used to get tile type and position
+    //( Helpfull in pathfinding with obstacle detection)
+
     [Serializable]
     public class TileStorageData
     {

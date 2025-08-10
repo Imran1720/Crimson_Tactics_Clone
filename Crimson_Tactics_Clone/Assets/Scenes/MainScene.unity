@@ -3806,10 +3806,10 @@ MonoBehaviour:
   obstaclePrefab: {fileID: 4899431772928755766, guid: ab6cb1ebb023cba42baa9faf1620b116,
     type: 3}
   tileDataSO: {fileID: 11400000, guid: dc1520628f83fca46be176fe47c27257, type: 2}
+  minSpawnPosition: {x: -4, y: 0, z: -4}
+  maxSpawnPosition: {x: 4, y: 0, z: 4}
   playerUnitView: {fileID: 7114155404795815768, guid: 99b52554e4a25634b8b78802274e4c31,
     type: 3}
-  minSpawnPosition: {x: -5, y: 0, z: -5}
-  maxSpawnPosition: {x: 4, y: 0, z: 4}
 --- !u!1 &500404960
 GameObject:
   m_ObjectHideFlags: 0
@@ -7074,8 +7074,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleDuration: 4
   tilePositionUIGO: {fileID: 1847623968}
-  tilePositionText: {fileID: 1953628518}
   tileStatusText: {fileID: 876675014}
+  tilePositionText: {fileID: 1953628518}
 --- !u!114 &993324402
 MonoBehaviour:
   m_ObjectHideFlags: 0

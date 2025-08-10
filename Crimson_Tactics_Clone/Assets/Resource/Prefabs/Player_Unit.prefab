@@ -1384,11 +1384,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4134689117091941910}
+  currentAnimator: {fileID: 1572897437158527435}
+  levelTileDataSO: {fileID: 11400000, guid: 3ff42002e85bade4f92bacb29bc0d7cc, type: 2}
+  currentUnitData:
+    levelTileDataSO: {fileID: 11400000, guid: 3ff42002e85bade4f92bacb29bc0d7cc, type: 2}
+    moveSpeed: 1
+    rotationSpeed: 30
   moveSpeed: 1
   rotationSpeed: 30
-  targetCheckPointList: []
-  levelTileDataSO: {fileID: 11400000, guid: 3ff42002e85bade4f92bacb29bc0d7cc, type: 2}
-  currentAnimator: {fileID: 1572897437158527435}
 --- !u!136 &7015897414082499642
 CapsuleCollider:
   m_ObjectHideFlags: 0

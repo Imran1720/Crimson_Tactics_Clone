@@ -6,9 +6,9 @@ namespace CrimsonTactics.Tile
 {
     public class ObstacleService
     {
+        private GameService gameService;
         private ObstacleTileDataSO obstacleTileDataSO;
 
-        private GameService gameService;
         public ObstacleService(GameService gameService, ObstacleTileDataSO obstacleTileDataSO)
         {
             this.gameService = gameService;
@@ -17,6 +17,7 @@ namespace CrimsonTactics.Tile
             GenerateObstacle();
         }
 
+        // Spawns obstacle at locations present in obstacleTileDataSO using GameService
         private void GenerateObstacle()
         {
             List<Vector3> obstaclePositionList = obstacleTileDataSO.obstaclePositionList;

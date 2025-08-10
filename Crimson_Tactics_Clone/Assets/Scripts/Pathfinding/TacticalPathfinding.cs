@@ -20,6 +20,8 @@ namespace CrimsonTactics.AI
             this.levelTileDataSO = levelTileDataSO;
         }
 
+        //Setting Pathfinding Data i.e
+        //unit start position and target position
         public void SetPathfindingData(Vector3Int startPosition, Vector3Int targetPosition)
         {
             this.startPosition = startPosition;
@@ -30,12 +32,15 @@ namespace CrimsonTactics.AI
             CalculateMovementVectors();
         }
 
+        // movement vectors are used to calculate checkpoints points a unit appart
         private void CalculateMovementVectors()
         {
             movementVectorX = (startPosition.x > targetPosition.x) ? -1 : 1;
             movementVectorZ = (startPosition.z > targetPosition.z) ? -1 : 1;
         }
 
+        //calculates and returns list of checkpoints
+        // Note: this algorithm ignores obstacles
         public List<Vector3Int> GetCheckpoints()
         {
             checkpointsList.Clear();
@@ -57,21 +62,6 @@ namespace CrimsonTactics.AI
             movementVector = Vector3Int.zero;
 
             return checkpointsList;
-        }
-
-        public void GetMoveCheckpoints()
-        {
-            checkpointsList.Clear();
-
-            while (startPosition.x != targetPosition.x)
-            {
-
-            }
-
-        }
-
-        public void CheckPossibleMove()
-        {
         }
     }
 }

@@ -10,13 +10,14 @@ namespace CrimsonTactics.UI
 
         private float timer;
         private float visibleDuration;
-        private TextMeshProUGUI tilePositionUIText;
+
         private TextMeshProUGUI tileStatusUIText;
+        private TextMeshProUGUI tilePositionUIText;
 
         public TilePositionUI(float visibleDuration, UIService uiService, TextMeshProUGUI text, TextMeshProUGUI statusText)
         {
-            this.uiService = uiService;
             tilePositionUIText = text;
+            this.uiService = uiService;
             tileStatusUIText = statusText;
             this.visibleDuration = visibleDuration;
         }
@@ -31,11 +32,11 @@ namespace CrimsonTactics.UI
             }
         }
 
-        public void SetTilePosition(Vector2 tilePosition, TileType tileType)
+        public void SetTilePosition(Vector3Int tilePosition, TileType tileType)
         {
             timer = visibleDuration;
             uiService.ShowTilePositionUI();
-            tilePositionUIText.text = $"({tilePosition.x},{tilePosition.y})";
+            tilePositionUIText.text = $"({tilePosition.x},{tilePosition.z})";
             tileStatusUIText.text = tileType == TileType.OBSTACLE ? "obstacle" : "Free";
         }
     }

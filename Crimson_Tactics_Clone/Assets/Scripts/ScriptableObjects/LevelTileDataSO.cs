@@ -1,9 +1,5 @@
-
-using CrimsonTactics.Level;
 using CrimsonTactics.Tile;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelTileDataSO", menuName = "SO/LevelTileDataSO")]

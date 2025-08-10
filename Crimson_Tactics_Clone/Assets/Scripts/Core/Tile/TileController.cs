@@ -7,13 +7,20 @@ namespace CrimsonTactics.Tile
     {
         [SerializeField] private TileType currentTileType;
 
-        private Vector2Int tileGridPosition;
-        private Vector3 tileWorldPosition;
+        private Vector3Int tileGridPosition;
 
         private void Start()
         {
-            tileGridPosition = new Vector2Int((int)transform.position.x, (int)transform.position.z);
-            tileWorldPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            tileGridPosition = CalculateGridPosition();
+        }
+
+        private Vector3Int CalculateGridPosition()
+        {
+            int x = (int)transform.position.x;
+            int y = (int)transform.position.y;
+            int z = (int)transform.position.z;
+
+            return new Vector3Int(x, y, z);
         }
 
         public void ToggleTileStatus()
@@ -21,9 +28,9 @@ namespace CrimsonTactics.Tile
             currentTileType = IsTileOccupied() ? TileType.FREE : TileType.OBSTACLE;
         }
 
-        public Vector2Int GetTileGridPosition() => tileGridPosition;
-        public Vector3 GetTileWorldPosition() => tileWorldPosition;
         public TileType GetTileType() => currentTileType;
+        public Vector3 GetTileWorldPosition() => transform.position;
+        public Vector3Int GetTileGridPosition() => tileGridPosition;
         public bool IsTileOccupied() => currentTileType == TileType.OBSTACLE;
     }
 }

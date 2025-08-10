@@ -17,7 +17,7 @@ namespace CrimsonTactics.Player
         private RaycastHit rayHit;
 
         private Camera currentCamera;
-        private Vector2Int oldHoverGridPosition;
+        private Vector3Int oldHoverGridPosition;
         private TileController targtTile;
 
         private bool isInputEnabled;
@@ -25,6 +25,7 @@ namespace CrimsonTactics.Player
         private void Start()
         {
             EnableInput();
+            targtTile = null;
             currentCamera = Camera.main;
         }
 
@@ -50,6 +51,10 @@ namespace CrimsonTactics.Player
         private void MovePlayerUnit()
         {
             //player movment logic
+            if (targtTile == null)
+            {
+                return;
+            }
             eventService.onTargetTileSelected.InvokeEvent(targtTile);
             DisableInput();
         }
@@ -77,16 +82,12 @@ namespace CrimsonTactics.Player
             eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition, tile.GetTileType());
         }
 
-        private void PlayerReachedTarget()
-        {
-            EnableInput();
-        }
+        private void PlayerReachedTarget() => EnableInput();
 
         private void EnableInput() => isInputEnabled = true;
         private void DisableInput() => isInputEnabled = false;
 
         private bool IsInvalidTile(TileController tile) => tile == null;
         private bool IsOldPosition(TileController tile) => oldHoverGridPosition == tile.GetTileGridPosition();
-
     }
 }

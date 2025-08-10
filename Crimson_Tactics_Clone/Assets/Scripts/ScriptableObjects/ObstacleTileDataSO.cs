@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace CrimsonTactics.Tile
 {
+    // This SO Stores all Obstacle position to be spawned
+
     [CreateAssetMenu(fileName = "ObstacleTileDataSO", menuName = "SO/ObstacleTileDataSO")]
     public class ObstacleTileDataSO : ScriptableObject
     {

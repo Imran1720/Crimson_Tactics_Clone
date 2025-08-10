@@ -3,7 +3,6 @@ using CrimsonTactics.Events;
 using CrimsonTactics.Player;
 using CrimsonTactics.Tile;
 using CrimsonTactics.UI;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CrimsonTactics.Core
@@ -25,19 +24,16 @@ namespace CrimsonTactics.Core
         [SerializeField] private ObstacleTileDataSO tileDataSO;
 
         [Header("Player-Unit-Data")]
-        [SerializeField] private PlayerUnitView playerUnitView;
         [SerializeField] private Vector3Int minSpawnPosition;
         [SerializeField] private Vector3Int maxSpawnPosition;
+        [SerializeField] private PlayerUnitView playerUnitView;
 
         private void Start()
         {
-            eventService = new EventService();
-            obstacleService = new ObstacleService(this, tileDataSO);
-            Vector3 playerSpawnPosition = GetSpawnPosiition();
-            playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+            CreateServices();
+            SetCameraTarget();
 
             InitializeData();
-            SetCameraTarget();
         }
 
         private void SetCameraTarget()
@@ -59,7 +55,17 @@ namespace CrimsonTactics.Core
             playerController.InitializeData(eventService);
         }
 
+        private void CreateServices()
+        {
+            eventService = new EventService();
+            Vector3 playerSpawnPosition = GetSpawnPosiition();
+            obstacleService = new ObstacleService(this, tileDataSO);
+            playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+        }
+
         public EventService GetEventService() => eventService;
+
+        //Method to spawn Obstacle At specified position
         public void CreateObstacleAt(Vector3 position)
         {
             TileController tile = Instantiate(obstaclePrefab, position, Quaternion.identity);

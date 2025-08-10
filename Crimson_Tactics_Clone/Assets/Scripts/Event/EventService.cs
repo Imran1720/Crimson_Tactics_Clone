@@ -6,15 +6,15 @@ namespace CrimsonTactics.Events
 {
     public class EventService
     {
-        public EventController<Vector2Int, TileType> onTilePositionUpdated;
-        public EventController<TileController> onTargetTileSelected;
         public EventController onPlayerReachedTarget;
+        public EventController<TileController> onTargetTileSelected;
+        public EventController<Vector3Int, TileType> onTilePositionUpdated;
 
         public EventService()
         {
-            onTilePositionUpdated = new EventController<Vector2Int, TileType>();
-            onTargetTileSelected = new EventController<TileController>();
             onPlayerReachedTarget = new EventController();
+            onTargetTileSelected = new EventController<TileController>();
+            onTilePositionUpdated = new EventController<Vector3Int, TileType>();
         }
     }
 }
