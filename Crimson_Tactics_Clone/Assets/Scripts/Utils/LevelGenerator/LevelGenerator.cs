@@ -111,8 +111,8 @@ namespace CrimsonTactics.Level
         //ensuring that the tile generated at the current transform is the center tile.
         private Vector3 GetTilePosition(int x, int z)
         {
-            startOffset = new Vector3(gridSizeX / 2, transform.position.y, gridSizeY / 2);
-            Vector3 tilePosition = new Vector3(x, transform.position.y, z) - startOffset;
+            //startOffset = new Vector3(gridSizeX / 2, transform.position.y, gridSizeY / 2);
+            Vector3 tilePosition = new Vector3(x, transform.position.y, z);
             return tilePosition;
         }
     }

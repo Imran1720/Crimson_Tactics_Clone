@@ -41,7 +41,7 @@ namespace CrimsonTactics.Player
             {
                 RunHoverDetection();
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && !targtTile.IsTileOccupied())
                 {
                     MovePlayerUnit();
                 }
