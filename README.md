@@ -57,6 +57,7 @@ Each functionality below will be implemented in a separate branch. Once complete
 ```plaintext
 Assets/
 ├── Resources/
+│  ├──Animations
 │  ├── Art/
 │  │  ├── Materials/
 │  │  ├── Models/
@@ -69,17 +70,9 @@ Assets/
 │  ├── Custom Data/
 │  ├── Editor/
 │  ├── Event/
-│  ├── Grid/
-│  ├── Obstacles/
 │  ├── Pathfinding/
 │  ├── ScriptableObjects/
 │  ├── UI/
 │  └── Utils/
 └── Scenes/
       └──MainScene.unity
-=======
-      └──MainScene.unity
->>>>>>> 18b3fdbd464ee33a4bf673da07d944e31183048f
-=======
-      └──MainScene.unity
->>>>>>> 18b3fdbd464ee33a4bf673da07d944e31183048f
