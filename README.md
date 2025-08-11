@@ -5,7 +5,7 @@ Inspired by Crimson Tactics, this project was developed in Unity and focuses on 
 ---
 ## Demo
 
-[![Watch the video](https://github.com/user-attachments/assets/fe0cb925-3403-4e1c-a9fc-bc2e46de69ec)](https://youtu.be/nUUML9pXy9o)
+[![Watch the video](https://github.com/user-attachments/assets/fe0cb925-3403-4e1c-a9fc-bc2e46de69ec)](https://youtu.be/UebnLKq9Z7I)
 
 
 Click the image above to watch the demo video.
