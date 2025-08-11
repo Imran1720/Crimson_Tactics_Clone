@@ -3,6 +3,15 @@
 Inspired by Crimson Tactics, this project was developed in Unity and focuses on essential tactical RPG features including pathfinding, grid-based mobility, and enemy AI on an isometric battlefield. With the use of specialized Unity Editor tools and clear, object-oriented C# programming, it displays key gameplay mechanisms seen in strategy role-playing games.
 
 ---
+## Demo
+
+[![Watch the video](https://github.com/user-attachments/assets/fe0cb925-3403-4e1c-a9fc-bc2e46de69ec)](https://youtu.be/UebnLKq9Z7I)
+
+
+Click the image above to watch the demo video.
+
+
+---
 
 # 📌 Core Features Checklist
 Each functionality below will be implemented in a separate branch. Once completed and tested, it will be checked off here.
@@ -17,7 +26,7 @@ Each functionality below will be implemented in a separate branch. Once complete
 ### 2️⃣ Obstacle System
 - [x] Custom Editor Tool with toggleable grid  
 - [x] ScriptableObject stores obstacle data
-- [x] ObstacleManager renders red spheres
+- [x] ObstacleManager renders Rocks(replacing with red Sphere)
 
 ---
 
@@ -48,6 +57,7 @@ Each functionality below will be implemented in a separate branch. Once complete
 ```plaintext
 Assets/
 ├── Resources/
+│  ├──Animations
 │  ├── Art/
 │  │  ├── Materials/
 │  │  ├── Models/
@@ -60,19 +70,9 @@ Assets/
 │  ├── Custom Data/
 │  ├── Editor/
 │  ├── Event/
-│  ├── Grid/
-│  ├── Obstacles/
 │  ├── Pathfinding/
 │  ├── ScriptableObjects/
 │  ├── UI/
 │  └── Utils/
 └── Scenes/
-<<<<<<< HEAD
-<<<<<<< HEAD
       └──MainScene.unity
-=======
-      └──MainScene.unity
->>>>>>> 18b3fdbd464ee33a4bf673da07d944e31183048f
-=======
-      └──MainScene.unity
->>>>>>> 18b3fdbd464ee33a4bf673da07d944e31183048f

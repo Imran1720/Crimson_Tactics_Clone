@@ -152,7 +152,7 @@ MonoBehaviour:
   - gridPosition: {x: 6, y: 0, z: 7}
     tileType: 0
   - gridPosition: {x: 6, y: 0, z: 8}
-    tileType: 1
+    tileType: 0
   - gridPosition: {x: 6, y: 0, z: 9}
     tileType: 0
   - gridPosition: {x: 7, y: 0, z: 0}
@@ -188,7 +188,7 @@ MonoBehaviour:
   - gridPosition: {x: 8, y: 0, z: 5}
     tileType: 0
   - gridPosition: {x: 8, y: 0, z: 6}
-    tileType: 1
+    tileType: 0
   - gridPosition: {x: 8, y: 0, z: 7}
     tileType: 0
   - gridPosition: {x: 8, y: 0, z: 8}
