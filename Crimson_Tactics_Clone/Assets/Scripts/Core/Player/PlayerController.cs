@@ -23,7 +23,7 @@ namespace CrimsonTactics.Player
             currentCamera = Camera.main;
         }
 
-        public void InitializeService(EventService eventService)
+        public void InitializeData(EventService eventService)
         {
             this.eventService = eventService;
         }
@@ -52,7 +52,7 @@ namespace CrimsonTactics.Player
         private void UpdateGridPosition(TileController tile)
         {
             oldHoverGridPosition = tile.GetTileGridPosition();
-            eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition);
+            eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition, tile.GetTileType());
         }
 
         private bool IsInvalidTile(TileController tile) => tile == null;

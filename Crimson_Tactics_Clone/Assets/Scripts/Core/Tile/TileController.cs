@@ -5,10 +5,10 @@ namespace CrimsonTactics.Tile
 {
     public class TileController : MonoBehaviour
     {
+        [SerializeField] private TileType currentTileType;
+
         private Vector2 tileGridPosition;
         private Vector3 tileWorldPosition;
-
-        private TileType currentTileType;
 
         private void Start()
         {
@@ -23,7 +23,7 @@ namespace CrimsonTactics.Tile
 
         public Vector2 GetTileGridPosition() => tileGridPosition;
         public Vector3 GetTileWorldPosition() => tileWorldPosition;
-
+        public TileType GetTileType() => currentTileType;
         public bool IsTileOccupied() => currentTileType == TileType.OBSTACLE;
     }
 }

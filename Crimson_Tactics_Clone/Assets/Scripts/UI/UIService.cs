@@ -1,4 +1,6 @@
 using CrimsonTactics.Events;
+using CrimsonTactics.Level;
+using CrimsonTactics.Tile;
 using TMPro;
 using UnityEngine;
 
@@ -11,19 +13,20 @@ namespace CrimsonTactics.UI
         [SerializeField] private float visibleDuration;
         [SerializeField] private GameObject tilePositionUIGO;
         [SerializeField] private TextMeshProUGUI tilePositionText;
+        [SerializeField] private TextMeshProUGUI tileStatusText;
 
         private TilePositionUI tilePositionUI;
 
         private void Start()
         {
-            tilePositionUI = new TilePositionUI(visibleDuration, this, tilePositionText);
+            tilePositionUI = new TilePositionUI(visibleDuration, this, tilePositionText, tileStatusText);
         }
 
         private void Update()
         {
             tilePositionUI.Update();
         }
-        public void InitializeServices(EventService eventService)
+        public void InitializeData(EventService eventService)
         {
             this.eventService = eventService;
             eventService.onTilePositionUpdated.AddEventListener(UpdateTilePositionUI);
@@ -34,9 +37,9 @@ namespace CrimsonTactics.UI
             eventService.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
         }
 
-        private void UpdateTilePositionUI(Vector2 position)
+        private void UpdateTilePositionUI(Vector2 position, TileType tileType)
         {
-            tilePositionUI.SetTilePosition(position);
+            tilePositionUI.SetTilePosition(position, tileType);
         }
 
         public void HideTilePositionUI() => HideUI(tilePositionUIGO);
