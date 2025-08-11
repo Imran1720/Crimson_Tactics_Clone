@@ -16,7 +16,7 @@ namespace CrimsonTactics.Level
         [SerializeField] private LevelLayoutSettings layoutSettings;
         [SerializeField] private float obstacleOffset;
 
-        [SerializeField] private ObstacleTileDataSO tileDataSO;
+        [SerializeField] private ObstacleTileDataSO obstacleTileDataSO;
         [SerializeField] private LevelTileDataSO levelTileDataSO;
 
         private Transform levelContainer;
@@ -45,7 +45,7 @@ namespace CrimsonTactics.Level
         public void GenerateGrid()
         {
             Vector3 tilePosition = Vector3.zero;
-            tileDataSO.InitializeData(obstacleCount);
+            obstacleTileDataSO.InitializeData(obstacleCount);
             if (gridTileArray == null)
             {
                 return;
@@ -65,13 +65,15 @@ namespace CrimsonTactics.Level
                     {
                         spawnedTile.ToggleTileStatus();
                         Vector3 obstacleOffsetPosition = new Vector3(tilePosition.x, tilePosition.y + obstacleOffset, tilePosition.z);
-                        tileDataSO.AddObstacleTilePosition(obstacleOffsetPosition);
+                        obstacleTileDataSO.AddObstacleTilePosition(obstacleOffsetPosition);
                     }
 
                     Vector3Int position = new Vector3Int(i, 0, j);
                     levelTileDataSO.tileDataList.Add(new TileStorageData(position, gridTileArray[i, j]));
                 }
             }
+            SaveScriptableData(levelTileDataSO);
+            SaveScriptableData(obstacleTileDataSO);
         }
 
         public void ToggleTileStatus(int x, int y)
@@ -114,6 +116,13 @@ namespace CrimsonTactics.Level
             //startOffset = new Vector3(gridSizeX / 2, transform.position.y, gridSizeY / 2);
             Vector3 tilePosition = new Vector3(x, transform.position.y, z);
             return tilePosition;
+        }
+
+        private void SaveScriptableData(ScriptableObject scriptableData)
+        {
+            EditorUtility.SetDirty(scriptableData);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

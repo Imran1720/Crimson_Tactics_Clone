@@ -21,9 +21,9 @@ namespace CrimsonTactics.Core
         [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
         [Header("Tile-Data")]
-        [SerializeField] private Transform tileContainer;
         [SerializeField] private TileController obstaclePrefab;
         [SerializeField] private ObstacleTileDataSO tileDataSO;
+        [SerializeField] private Transform tileContainer;
 
         [Header("Player-Unit-Data")]
         [SerializeField] private Vector3Int minSpawnPosition;
@@ -62,12 +62,17 @@ namespace CrimsonTactics.Core
 
         private void CreateServices()
         {
-            eventService = new EventService();
-            Vector3 playerSpawnPosition = GetSpawnPosiition();
-            obstacleService = new ObstacleService(this, tileDataSO);
-            playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
-            Vector3 enemySpawnPosition = GetSpawnPosiition();
-            enemyService = new EnemyService(enemyUnitPrefab, eventService, enemySpawnPosition);
+            if (transform.childCount > 0)
+            {
+                tileContainer = transform.GetChild(0);
+
+                eventService = new EventService();
+                Vector3 playerSpawnPosition = GetSpawnPosiition();
+                obstacleService = new ObstacleService(this, tileDataSO);
+                playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+                Vector3 enemySpawnPosition = GetSpawnPosiition();
+                enemyService = new EnemyService(enemyUnitPrefab, eventService, enemySpawnPosition);
+            }
         }
 
         private Vector3 GetEnemySpawnPosition(Vector3 playerPosition)
