@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e09443533c1e6340aaef4072123a211, type: 3}
   m_Name: ObstacleTileDataSO
   m_EditorClassIdentifier: 
-  obstaclePositionList:
-  - {x: 6, y: 0.2, z: 8}
-  - {x: 8, y: 0.2, z: 6}
+  obstaclePositionList: []
