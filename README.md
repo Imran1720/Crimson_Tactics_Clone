@@ -12,6 +12,21 @@ Click the image above to watch the demo video.
 
 
 ---
+# Project Setup Instructions
+<ol>
+      <li>
+            <b>Remove Existing Level : </b> In the Game Service object, delete any existing Level child object (if present).
+      </li> 
+      <li>
+            <b>Generate a New Level:</b> Use the Level Generator to create your desired level layout.
+      </li>
+      <li>
+     <b> Assign Level Container :</b> In the Inspector, drag the Level Container (created by the Level Generator and located under Game Service)
+into the Game Service script’s Level Container field.
+      </li>
+</ol>
+
+---
 
 # 📌 Core Features Checklist
 Each functionality below will be implemented in a separate branch. Once completed and tested, it will be checked off here.
