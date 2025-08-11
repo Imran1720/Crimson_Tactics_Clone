@@ -83,5 +83,7 @@ namespace CrimsonTactics.AI
 
             return checkpointsList;
         }
+
+
     }
 }
