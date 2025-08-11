@@ -26,7 +26,7 @@ Each functionality below will be implemented in a separate branch. Once complete
 ### 2️⃣ Obstacle System
 - [x] Custom Editor Tool with toggleable grid  
 - [x] ScriptableObject stores obstacle data
-- [x] ObstacleManager renders red spheres
+- [x] ObstacleManager renders Rocks(replacing with red Sphere)
 
 ---
 
