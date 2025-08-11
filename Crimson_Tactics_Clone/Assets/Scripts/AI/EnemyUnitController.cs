@@ -1,11 +1,12 @@
 using CrimsonTactics.Events;
 using CrimsonTactics.Unit;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace CrimsonTactics.AI
 {
-    public class EnemyUnitController : UnitController
+    public class EnemyUnitController : UnitController, EnemyAI
     {
         //core
         private EventService eventService;
@@ -33,9 +34,8 @@ namespace CrimsonTactics.AI
 
         private void OnPlayerUnitReachedTarget(Vector3Int targetPosition)
         {
-            finalPosition = targetPosition;
-            enemyUnitView.SetRigidbodyDynamic();
-            SetTarget(finalPosition);
+            CalculateMovementCheckpoints(targetPosition);
+            EnableMovement();
         }
 
         protected override void CalculateCheckpoints()
@@ -70,7 +70,25 @@ namespace CrimsonTactics.AI
 
         protected override void StopUnit(Vector3Int targetCheckpoint)
         {
+            DisableMovement();
+        }
+
+        public void EnableMovement()
+        {
+            enemyUnitView.EnableMovement();
+        }
+
+        public void DisableMovement()
+        {
             enemyUnitView.StopUnit(targetCheckpoint);
+            enemyUnitView.DisableMovement();
+        }
+
+        public void CalculateMovementCheckpoints(Vector3Int targetPosition)
+        {
+            finalPosition = targetPosition;
+            enemyUnitView.SetRigidbodyDynamic();
+            SetTarget(finalPosition);
         }
     }
 }
