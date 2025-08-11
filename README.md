@@ -3,6 +3,15 @@
 Inspired by Crimson Tactics, this project was developed in Unity and focuses on essential tactical RPG features including pathfinding, grid-based mobility, and enemy AI on an isometric battlefield. With the use of specialized Unity Editor tools and clear, object-oriented C# programming, it displays key gameplay mechanisms seen in strategy role-playing games.
 
 ---
+## Demo
+
+[![Watch the video](https://github.com/user-attachments/assets/fe0cb925-3403-4e1c-a9fc-bc2e46de69ec)](https://youtu.be/nUUML9pXy9o)
+
+
+Click the image above to watch the demo video.
+
+
+---
 
 # 📌 Core Features Checklist
 Each functionality below will be implemented in a separate branch. Once completed and tested, it will be checked off here.
