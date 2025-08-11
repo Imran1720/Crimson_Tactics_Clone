@@ -29,9 +29,9 @@ Each functionality below will be implemented in a separate branch. Once complete
 ---
 
 ### 4️⃣ Enemy AI
-- [ ] Enemy AI with interface  
-- [ ] Moves to adjacent tile near player  
-- [ ] Waits for player to move  
+- [x] Enemy AI with interface  
+- [x] Moves to adjacent tile near player  
+- [x] Waits for player to move  
 
 ---
 

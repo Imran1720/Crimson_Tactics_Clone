@@ -13,7 +13,7 @@ namespace CrimsonTactics.AI
         private Vector3Int movementVector;
 
         private List<Vector3Int> checkpointsList;
-        private Stack<Vector3Int> checkpointsList2;
+        //private Stack<Vector3Int> checkpointsList2;
 
         private int movementVectorX;
         private int movementVectorZ;
@@ -44,8 +44,10 @@ namespace CrimsonTactics.AI
             this.startPosition = startPosition;
             this.targetPosition = targetPosition;
 
+            startPosition.y = 0;
+            targetPosition.y = 0;
             checkpointsList = new List<Vector3Int>();
-            checkpointsList2 = new Stack<Vector3Int>();
+            // checkpointsList2 = new Stack<Vector3Int>();
 
             CalculateMovementVectors();
         }
@@ -68,9 +70,9 @@ namespace CrimsonTactics.AI
                 checkpointsList.Add(startPosition);
                 startPosition += movementVector;
             }
-            checkpointsList.Add(startPosition);
             movementVector = Vector3Int.zero;
             movementVector = new Vector3Int(0, 0, movementVectorZ);
+
             while (startPosition.z != targetPosition.z)
             {
                 checkpointsList.Add(startPosition);
@@ -80,80 +82,6 @@ namespace CrimsonTactics.AI
             movementVector = Vector3Int.zero;
 
             return checkpointsList;
-        }
-
-
-        //ObjectDetection Pathfinding 
-        // UNDER DEVELOPMENT
-        public List<Vector3Int> GetCheckpointsWithOD()
-        {
-            checkpointsList.Clear();
-            Move();
-            movementVector = Vector3Int.zero;
-
-            return checkpointsList;
-        }
-
-        private void Move()
-        {
-            MoveX();
-            MoveY();
-
-            if (startPosition != targetPosition)
-            {
-                Move();
-            }
-
-            checkpointsList2.Push(startPosition);
-
-            while (checkpointsList2.Count > 0)
-            {
-                checkpointsList.Add(checkpointsList2.Pop());
-            }
-            if (checkpointsList.Count > 0 && checkpointsList[0] == targetPosition)
-            {
-                checkpointsList.Reverse();
-            }
-        }
-
-        private void MoveY()
-        {
-            Vector3Int tempMovement;
-            movementVector = new Vector3Int(0, 0, movementVectorZ);
-            while (startPosition.z != targetPosition.z)
-            {
-                tempMovement = startPosition + movementVector;
-                if (tileTypesArray[tempMovement.x, tempMovement.z] == TileType.FREE)
-                {
-                    checkpointsList2.Push(startPosition);
-                    startPosition += movementVector;
-                }
-                else
-                {
-                    checkpointsList2.Push(startPosition);
-                    break;
-                }
-            }
-        }
-
-        private void MoveX()
-        {
-            Vector3Int tempMovement;
-            movementVector = new Vector3Int(movementVectorX, 0, 0);
-            while (startPosition.x != targetPosition.x)
-            {
-                tempMovement = startPosition + movementVector;
-                if (tileTypesArray[tempMovement.x, tempMovement.z] == TileType.FREE)
-                {
-                    checkpointsList2.Push(startPosition);
-                    startPosition += movementVector;
-                }
-                else
-                {
-                    checkpointsList2.Push(startPosition);
-                    break;
-                }
-            }
         }
     }
 }

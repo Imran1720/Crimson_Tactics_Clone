@@ -1,4 +1,3 @@
-using CrimsonTactics.AI;
 using CrimsonTactics.Events;
 using CrimsonTactics.Tile;
 using CrimsonTactics.Unit;
@@ -7,27 +6,13 @@ using UnityEngine;
 
 namespace CrimsonTactics.Player
 {
-    public class PlayerUnitController
+    public class PlayerUnitController : UnitController
     {
         //core
         private EventService eventService;
         private PlayerUnitView playerUnitView;
-        private LevelTileDataSO levelTileDataSO;
 
-        private float moveSpeed;
-        private float rotationSpeed;
-
-        // transform Data
-        private Quaternion currentRotation;
-
-        private Vector3Int finalPosition;
-        private Vector3Int targetCheckpoint;
-
-        // Dependencies
-        private TacticalPathfinding pathfinding;
-        private List<Vector3Int> targetCheckPointList;
-
-        public PlayerUnitController(PlayerUnitView playerUnitView, EventService eventService)
+        public PlayerUnitController(PlayerUnitView playerUnitView, EventService eventService) : base()
         {
             this.playerUnitView = playerUnitView;
             this.eventService = eventService;
@@ -37,99 +22,38 @@ namespace CrimsonTactics.Player
             eventService.onTargetTileSelected.AddEventListener(OnTragetTileSelected);
         }
 
-        public void InitializeData(UnitData currentUnitData, Vector3Int currentUnitPosition)
+        public override void Update()
         {
-            moveSpeed = currentUnitData.moveSpeed;
-            rotationSpeed = currentUnitData.rotationSpeed;
-            levelTileDataSO = currentUnitData.levelTileDataSO;
-
-            finalPosition = currentUnitPosition;
-            targetCheckpoint = currentUnitPosition;
-            pathfinding = new TacticalPathfinding(levelTileDataSO);
-        }
-
-        public void Update()
-        {
-            if (UnitAtFinalTarget())
-            {
-                playerUnitView.StopUnit(targetCheckpoint);
-                InvokePlayerDestinationReached();
-                return;
-            }
-
-            SetTargetCheckpoint();
-            playerUnitView.SetVelocity(CalculateMoveVelocity());
-            RotateUnit();
-        }
-
-        // Updating checkpoints based on the list   
-        private void SetTargetCheckpoint()
-        {
-            if (IsUnitAtTargetCheckpoint())
-            {
-                targetCheckpoint = targetCheckPointList[0];
-                targetCheckPointList.RemoveAt(0);
-            }
-        }
-
-        //Setting target and data for calculating the checkpoints for unit to follow
-        public void SetTarget(Vector3Int targetPosition)
-        {
-            Vector3Int currentPosition = playerUnitView.GetPlayerUnitPosition();
-            pathfinding.SetPathfindingData(currentPosition, targetPosition);
-
-            CalculateCheckpoints();
-        }
-
-        //calculating checkpoints
-        private void CalculateCheckpoints()
-        {
-            targetCheckPointList.Clear();
-            targetCheckPointList = pathfinding.GetCheckpoints();
+            base.Update();
         }
 
         // Event listener to get the selected grid poisition on player seleting a grid
         private void OnTragetTileSelected(TileController tileController)
         {
             finalPosition = tileController.GetTileGridPosition();
+            playerUnitView.SetRigidbodyDynamic();
             SetTarget(finalPosition);
         }
 
         // Event to notify that player is reached the target to enable Input 
-        public void InvokePlayerDestinationReached()
+        protected override void InvokeUnitDestinationReached()
         {
-            eventService.onPlayerReachedTarget.InvokeEvent();
+            eventService.onPlayerReachedTarget.InvokeEvent(targetCheckpoint);
         }
 
-        //Calculating direction and based on it calculating Velocity amd returning
-        // checkpoint : target, unitTransform : current unit transform
-        public Vector3 CalculateMoveVelocity()
+        protected override bool IsPlayer()
         {
-            Vector3 unitTransform = playerUnitView.GetPlayerWorldPosition();
-            Vector3 direction = (targetCheckpoint - unitTransform).normalized;
-            direction.y = unitTransform.y;
-
-            return direction * moveSpeed;
+            return true;
         }
 
-        //Calculating player Rotation based on target checkpoints
-        public Quaternion CalculateLookRotation(Vector3Int checkpoint, Vector3 unitTransform, float rotationSpeed)
+        protected override void SetUnitPosition(Vector3Int targetCheckpoint)
         {
-            Vector3 direction = (checkpoint - unitTransform).normalized;
-            direction.y = unitTransform.y;
-
-            return Quaternion.LookRotation(direction);
+            playerUnitView.SetUnitPosition(targetCheckpoint);
         }
-
-        private void RotateUnit()
-        {
-            Vector3 position = playerUnitView.GetPlayerWorldPosition();
-            Quaternion lookRotation = CalculateLookRotation(targetCheckpoint, position, rotationSpeed);
-            playerUnitView.RotateUnit(lookRotation);
-        }
-
-        private bool UnitAtFinalTarget() => IsUnitAtTargetCheckpoint() && targetCheckPointList.Count <= 0;
-
-        private bool IsUnitAtTargetCheckpoint() => Vector3.Distance(targetCheckpoint, playerUnitView.GetPlayerWorldPosition()) <= 0.1f;
+        protected override Vector3Int GetUnitPosition() => playerUnitView.GetCurrentUnitPosition();
+        protected override Vector3 GetUnitWorldPosition() => playerUnitView.GetUnitWorldPosition();
+        protected override void SetVelocity() => playerUnitView.SetVelocity(CalculateMoveVelocity());
+        protected override void StopUnit(Vector3Int targetCheckpoint) => playerUnitView.StopUnit(targetCheckpoint);
+        protected override void RotateCurrentUnit(Quaternion lookRotation) => playerUnitView.RotateUnit(lookRotation);
     }
 }

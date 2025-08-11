@@ -1,4 +1,5 @@
 using Cinemachine;
+using CrimsonTactics.AI;
 using CrimsonTactics.Events;
 using CrimsonTactics.Player;
 using CrimsonTactics.Tile;
@@ -12,6 +13,7 @@ namespace CrimsonTactics.Core
         private EventService eventService;
         private ObstacleService obstacleService;
         private PlayerUnitService playerUnitService;
+        private EnemyService enemyService;
 
         [Header("Dependencies")]
         [SerializeField] private UIService uiService;
@@ -27,6 +29,9 @@ namespace CrimsonTactics.Core
         [SerializeField] private Vector3Int minSpawnPosition;
         [SerializeField] private Vector3Int maxSpawnPosition;
         [SerializeField] private PlayerUnitView playerUnitView;
+
+        [Header("Enemy-Unit-Data")]
+        [SerializeField] private EnemyUnitView enemyUnitPrefab;
 
         private void Start()
         {
@@ -61,6 +66,20 @@ namespace CrimsonTactics.Core
             Vector3 playerSpawnPosition = GetSpawnPosiition();
             obstacleService = new ObstacleService(this, tileDataSO);
             playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+            Vector3 enemySpawnPosition = GetSpawnPosiition();
+            enemyService = new EnemyService(enemyUnitPrefab, eventService, enemySpawnPosition);
+        }
+
+        private Vector3 GetEnemySpawnPosition(Vector3 playerPosition)
+        {
+            Vector3 spawnPosition = GetSpawnPosiition();
+
+            if (spawnPosition == playerPosition)
+            {
+                spawnPosition = GetEnemySpawnPosition(playerPosition);
+            }
+
+            return spawnPosition;
         }
 
         public EventService GetEventService() => eventService;
