@@ -76,8 +76,6 @@ Assets/
 │  ├── UI/
 │  └── Utils/
 └── Scenes/
-<<<<<<< HEAD
-<<<<<<< HEAD
       └──MainScene.unity
 =======
       └──MainScene.unity
