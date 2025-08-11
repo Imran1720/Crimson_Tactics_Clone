@@ -12,8 +12,9 @@ namespace CrimsonTactics.UI
 
         [SerializeField] private float visibleDuration;
         [SerializeField] private GameObject tilePositionUIGO;
-        [SerializeField] private TextMeshProUGUI tilePositionText;
+
         [SerializeField] private TextMeshProUGUI tileStatusText;
+        [SerializeField] private TextMeshProUGUI tilePositionText;
 
         private TilePositionUI tilePositionUI;
 
@@ -37,7 +38,7 @@ namespace CrimsonTactics.UI
             eventService.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
         }
 
-        private void UpdateTilePositionUI(Vector2 position, TileType tileType)
+        private void UpdateTilePositionUI(Vector3Int position, TileType tileType)
         {
             tilePositionUI.SetTilePosition(position, tileType);
         }

@@ -1,3 +1,4 @@
+using Cinemachine;
 using CrimsonTactics.Events;
 using CrimsonTactics.Player;
 using CrimsonTactics.Tile;
@@ -10,19 +11,42 @@ namespace CrimsonTactics.Core
     {
         private EventService eventService;
         private ObstacleService obstacleService;
+        private PlayerUnitService playerUnitService;
 
+        [Header("Dependencies")]
         [SerializeField] private UIService uiService;
-        [SerializeField] private PlayerController playerController;
-        [SerializeField] private ObstacleTileDataSO tileDataSO;
+        [SerializeField] private PlayerInputController playerController;
+        [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
+        [Header("Tile-Data")]
         [SerializeField] private Transform tileContainer;
         [SerializeField] private TileController obstaclePrefab;
+        [SerializeField] private ObstacleTileDataSO tileDataSO;
+
+        [Header("Player-Unit-Data")]
+        [SerializeField] private Vector3Int minSpawnPosition;
+        [SerializeField] private Vector3Int maxSpawnPosition;
+        [SerializeField] private PlayerUnitView playerUnitView;
 
         private void Start()
         {
-            eventService = new EventService();
-            obstacleService = new ObstacleService(this, tileDataSO);
+            CreateServices();
+            SetCameraTarget();
+
             InitializeData();
+        }
+
+        private void SetCameraTarget()
+        {
+            cinemachineVirtualCamera.Follow = playerUnitService.GetUnitTransform();
+            cinemachineVirtualCamera.LookAt = playerUnitService.GetUnitTransform();
+        }
+
+        private Vector3 GetSpawnPosiition()
+        {
+            int spawnPositionX = Random.Range(minSpawnPosition.x, maxSpawnPosition.x);
+            int spawnPositionz = Random.Range(minSpawnPosition.z, maxSpawnPosition.z);
+            return new Vector3(spawnPositionX, minSpawnPosition.y, spawnPositionz);
         }
 
         private void InitializeData()
@@ -31,7 +55,17 @@ namespace CrimsonTactics.Core
             playerController.InitializeData(eventService);
         }
 
+        private void CreateServices()
+        {
+            eventService = new EventService();
+            Vector3 playerSpawnPosition = GetSpawnPosiition();
+            obstacleService = new ObstacleService(this, tileDataSO);
+            playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+        }
+
         public EventService GetEventService() => eventService;
+
+        //Method to spawn Obstacle At specified position
         public void CreateObstacleAt(Vector3 position)
         {
             TileController tile = Instantiate(obstaclePrefab, position, Quaternion.identity);

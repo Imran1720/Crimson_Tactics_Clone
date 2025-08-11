@@ -1,5 +1,6 @@
 using CrimsonTactics.Tile;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace CrimsonTactics.Level
@@ -8,11 +9,15 @@ namespace CrimsonTactics.Level
     {
         [Header("Level-Data")]
         [SerializeField] private Transform gameService;
-        [SerializeField] private TileController tilePrefab;
-        [SerializeField] private ObstacleTileDataSO tileDataSO;
         [SerializeField] private Transform levelContainerPrefab;
+
+        [SerializeField] private TileController tilePrefab;
+
         [SerializeField] private LevelLayoutSettings layoutSettings;
         [SerializeField] private float obstacleOffset;
+
+        [SerializeField] private ObstacleTileDataSO tileDataSO;
+        [SerializeField] private LevelTileDataSO levelTileDataSO;
 
         private Transform levelContainer;
 
@@ -31,14 +36,16 @@ namespace CrimsonTactics.Level
             gridSizeY = layoutSettings.gridSizeY;
 
             gridTileArray = new TileType[gridSizeX, gridSizeY];
+            levelTileDataSO.tileDataList.Clear();
+            levelTileDataSO.row = gridSizeX;
+            levelTileDataSO.col = gridSizeY;
         }
 
         //This method Instantiates the level tiles in the scene based on the grid size provided (default: 10x10).
         public void GenerateGrid()
         {
             Vector3 tilePosition = Vector3.zero;
-            tileDataSO.InitializeList(obstacleCount);
-
+            tileDataSO.InitializeData(obstacleCount);
             if (gridTileArray == null)
             {
                 return;
@@ -60,6 +67,9 @@ namespace CrimsonTactics.Level
                         Vector3 obstacleOffsetPosition = new Vector3(tilePosition.x, tilePosition.y + obstacleOffset, tilePosition.z);
                         tileDataSO.AddObstacleTilePosition(obstacleOffsetPosition);
                     }
+
+                    Vector3Int position = new Vector3Int(i, 0, j);
+                    levelTileDataSO.tileDataList.Add(new TileStorageData(position, gridTileArray[i, j]));
                 }
             }
         }
@@ -101,8 +111,8 @@ namespace CrimsonTactics.Level
         //ensuring that the tile generated at the current transform is the center tile.
         private Vector3 GetTilePosition(int x, int z)
         {
-            startOffset = new Vector3(gridSizeX / 2, transform.position.y, gridSizeY / 2);
-            Vector3 tilePosition = new Vector3(x, transform.position.y, z) - startOffset;
+            //startOffset = new Vector3(gridSizeX / 2, transform.position.y, gridSizeY / 2);
+            Vector3 tilePosition = new Vector3(x, transform.position.y, z);
             return tilePosition;
         }
     }
