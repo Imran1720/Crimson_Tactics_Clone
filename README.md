@@ -33,7 +33,7 @@ Each functionality below will be implemented in a separate branch. Once complete
 ### 3️⃣ Player Pathfinding
 - [X] Pathfinding algorithm  
 - [X] Animated movement  
-- [ ] Obstacle-aware pathfinding
+- [x] Obstacle-aware pathfinding
 
 ---
 
