@@ -27,7 +27,7 @@ public class ObstacleGeneratorEditor : Editor
 
         InitializeData();
 
-        if (generator.IsGridEmpty())
+        if (generator.IsGridEmpty() || generator.IsTileDataEmpty())
         {
             return;
         }

@@ -14,6 +14,7 @@ namespace CrimsonTactics.Level
         [SerializeField] private Transform levelContainerPrefab;
 
         [SerializeField] private LevelTileDataSO levelTileDataSO;
+        [SerializeField] private ObstacleTileDataSO obstacleTileDataSO;
         [SerializeField] private LevelLayoutSettings layoutSettings;
 
         [SerializeField] private float obstacleOffset;
@@ -72,6 +73,8 @@ namespace CrimsonTactics.Level
                 DestroyImmediate(levelContainer.gameObject);
             }
             gridTileArray = null;
+            levelTileDataSO.tileDataList.Clear();
+            obstacleTileDataSO.obstaclePositionList.Clear();
         }
 
         public LevelLayoutSettings GetLevelLayoutSettings() => layoutSettings;

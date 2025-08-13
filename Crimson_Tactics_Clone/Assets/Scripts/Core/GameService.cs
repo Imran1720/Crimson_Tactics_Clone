@@ -36,10 +36,13 @@ namespace CrimsonTactics.Core
 
         private void Start()
         {
-            CreateServices();
-            SetCameraTarget();
+            if (transform.childCount > 0)
+            {
+                CreateServices();
+                SetCameraTarget();
 
-            InitializeData();
+                InitializeData();
+            }
         }
 
         private void SetCameraTarget()
@@ -76,23 +79,19 @@ namespace CrimsonTactics.Core
 
         private void CreateServices()
         {
-            if (transform.childCount > 0)
-            {
-                tileContainer = transform.GetChild(0);
+            tileContainer = transform.GetChild(0);
 
-                eventService = new EventService();
-                Vector3 playerSpawnPosition = GetSpawnPosiition();
-                obstacleService = new ObstacleService(this, obstacleTileDataSO);
-                playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
-                Vector3 enemySpawnPosition = GetSpawnPosiition();
-                enemyService = new EnemyService(enemyUnitPrefab, eventService, enemySpawnPosition);
-            }
+            eventService = new EventService();
+            Vector3 playerSpawnPosition = GetSpawnPosiition();
+            obstacleService = new ObstacleService(this, obstacleTileDataSO);
+            playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+            Vector3 enemySpawnPosition = GetEnemySpawnPosition(playerSpawnPosition);
+            enemyService = new EnemyService(enemyUnitPrefab, eventService, enemySpawnPosition);
         }
 
         private Vector3 GetEnemySpawnPosition(Vector3 playerPosition)
         {
             Vector3 spawnPosition = GetSpawnPosiition();
-
             if (spawnPosition == playerPosition)
             {
                 spawnPosition = GetEnemySpawnPosition(playerPosition);

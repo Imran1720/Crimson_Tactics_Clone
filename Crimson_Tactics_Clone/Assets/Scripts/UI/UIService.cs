@@ -38,7 +38,7 @@ namespace CrimsonTactics.UI
         public TileType GetTileType(int x, int y) => tileLevelDataSO.tileDataList[(x * 10) + y].GetTileType();
         private void OnDisable()
         {
-            eventService.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
+            eventService?.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
         }
 
         private void UpdateTilePositionUI(Vector3Int position)

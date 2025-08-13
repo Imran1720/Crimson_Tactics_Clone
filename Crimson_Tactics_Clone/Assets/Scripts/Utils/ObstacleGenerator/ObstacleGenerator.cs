@@ -41,6 +41,10 @@ namespace CrimsonTactics.Level
         {
             List<TileStorageData> tileDataList = levelTileDataSO.tileDataList;
 
+            if (tileDataList.Count <= 0)
+            {
+                return;
+            }
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < columnCount; j++)
@@ -52,6 +56,10 @@ namespace CrimsonTactics.Level
 
         public void ToggleTileStatus(int x, int y)
         {
+            if (levelTileDataSO.tileDataList.Count <= 0)
+            {
+                return;
+            }
             gridTileArray[x, y] = gridTileArray[x, y] == TileType.FREE ? TileType.OBSTACLE : TileType.FREE;
             levelTileDataSO.tileDataList[(x * 10) + y].SetTileType(gridTileArray[x, y]);
         }
@@ -70,6 +78,8 @@ namespace CrimsonTactics.Level
             SaveData();
         }
 
+        public bool IsTileDataEmpty() => levelTileDataSO.tileDataList.Count <= 0;
+
         public void SaveData()
         {
             obstacleTileDataSO.obstaclePositionList.Clear();
@@ -83,11 +93,12 @@ namespace CrimsonTactics.Level
             }
 
             SaveScriptableData(levelTileDataSO);
+            SaveScriptableData(obstacleTileDataSO);
         }
 
-        private void SaveScriptableData(ScriptableObject so)
+        private void SaveScriptableData(ScriptableObject scriptableData)
         {
-            EditorUtility.SetDirty(so);
+            EditorUtility.SetDirty(scriptableData);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
