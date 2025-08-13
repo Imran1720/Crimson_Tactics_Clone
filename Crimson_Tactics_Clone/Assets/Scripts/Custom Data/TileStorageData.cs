@@ -10,13 +10,17 @@ namespace CrimsonTactics.Tile
     [Serializable]
     public class TileStorageData
     {
-        public Vector3Int gridPosition;
         public TileType tileType;
+        public Vector3Int gridPosition;
 
         public TileStorageData(Vector3Int gridPosition, TileType tileType)
         {
             this.gridPosition = gridPosition;
             this.tileType = tileType;
         }
+
+        public void SetTileType(TileType type) => tileType = type;
+        public TileType GetTileType() => tileType;
+        public Vector3Int GetGridPosition() => gridPosition;
     }
 }

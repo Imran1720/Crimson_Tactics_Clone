@@ -22,6 +22,8 @@ namespace CrimsonTactics.Player
 
         private bool isInputEnabled;
 
+        private LevelTileDataSO levelTileDataSO;
+
         private void Start()
         {
             EnableInput();
@@ -29,9 +31,10 @@ namespace CrimsonTactics.Player
             currentCamera = Camera.main;
         }
 
-        public void InitializeData(EventService eventService)
+        public void InitializeData(EventService eventService, LevelTileDataSO levelTileDataSO)
         {
             this.eventService = eventService;
+            this.levelTileDataSO = levelTileDataSO;
             eventService.onEnemyReachedTarget.AddEventListener(OnEnemyReachedTarget);
         }
 
@@ -40,12 +43,18 @@ namespace CrimsonTactics.Player
             if (isInputEnabled)
             {
                 RunHoverDetection();
-
-                if (Input.GetMouseButtonDown(0) && !targtTile.IsTileOccupied())
+                if (Input.GetMouseButtonDown(0) && IsTileFree())
                 {
                     MovePlayerUnit();
                 }
             }
+        }
+
+        private bool IsTileFree()
+        {
+            int x = targtTile.GetTileGridPosition().x;
+            int y = targtTile.GetTileGridPosition().z;
+            return levelTileDataSO.tileDataList[(x * 10) + y].GetTileType() == Level.TileType.FREE;
         }
 
         private void MovePlayerUnit()
@@ -79,7 +88,7 @@ namespace CrimsonTactics.Player
         {
             targtTile = tile;
             oldHoverGridPosition = tile.GetTileGridPosition();
-            eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition, tile.GetTileType());
+            eventService.onTilePositionUpdated.InvokeEvent(oldHoverGridPosition);
         }
 
         private void OnEnemyReachedTarget() => EnableInput();

@@ -1,9 +1,11 @@
 using Cinemachine;
 using CrimsonTactics.AI;
 using CrimsonTactics.Events;
+using CrimsonTactics.Level;
 using CrimsonTactics.Player;
 using CrimsonTactics.Tile;
 using CrimsonTactics.UI;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CrimsonTactics.Core
@@ -21,13 +23,12 @@ namespace CrimsonTactics.Core
         [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
         [Header("Tile-Data")]
-        [SerializeField] private TileController obstaclePrefab;
-        [SerializeField] private ObstacleTileDataSO tileDataSO;
         [SerializeField] private Transform tileContainer;
+        [SerializeField] private TileController obstaclePrefab;
+        [SerializeField] private LevelTileDataSO levelTileDataSO;
+        [SerializeField] private ObstacleTileDataSO obstacleTileDataSO;
 
         [Header("Player-Unit-Data")]
-        [SerializeField] private Vector3Int minSpawnPosition;
-        [SerializeField] private Vector3Int maxSpawnPosition;
         [SerializeField] private PlayerUnitView playerUnitView;
 
         [Header("Enemy-Unit-Data")]
@@ -35,10 +36,13 @@ namespace CrimsonTactics.Core
 
         private void Start()
         {
-            CreateServices();
-            SetCameraTarget();
+            if (transform.childCount > 0)
+            {
+                CreateServices();
+                SetCameraTarget();
 
-            InitializeData();
+                InitializeData();
+            }
         }
 
         private void SetCameraTarget()
@@ -49,36 +53,45 @@ namespace CrimsonTactics.Core
 
         private Vector3 GetSpawnPosiition()
         {
-            int spawnPositionX = Random.Range(minSpawnPosition.x, maxSpawnPosition.x);
-            int spawnPositionz = Random.Range(minSpawnPosition.z, maxSpawnPosition.z);
-            return new Vector3(spawnPositionX, minSpawnPosition.y, spawnPositionz);
+            Vector3 postion;
+            int spawnPositionX = Random.Range(0, levelTileDataSO.row);
+            int spawnPositionz = Random.Range(0, levelTileDataSO.col);
+            postion = new Vector3(spawnPositionX, 0, spawnPositionz);
+            if (GetTileType(spawnPositionX, spawnPositionz) == TileType.OBSTACLE)
+            {
+                postion = GetSpawnPosiition();
+            }
+            return postion;
+        }
+
+        private TileType GetTileType(int spawnPositionX, int spawnPositionz)
+        {
+            List<TileStorageData> tileStorageData = levelTileDataSO.tileDataList;
+
+            return tileStorageData[(spawnPositionX * 10) + spawnPositionz].GetTileType();
         }
 
         private void InitializeData()
         {
             uiService.InitializeData(eventService);
-            playerController.InitializeData(eventService);
+            playerController.InitializeData(eventService, levelTileDataSO);
         }
 
         private void CreateServices()
         {
-            if (transform.childCount > 0)
-            {
-                tileContainer = transform.GetChild(0);
+            tileContainer = transform.GetChild(0);
 
-                eventService = new EventService();
-                Vector3 playerSpawnPosition = GetSpawnPosiition();
-                obstacleService = new ObstacleService(this, tileDataSO);
-                playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
-                Vector3 enemySpawnPosition = GetSpawnPosiition();
-                enemyService = new EnemyService(enemyUnitPrefab, eventService, enemySpawnPosition);
-            }
+            eventService = new EventService();
+            Vector3 playerSpawnPosition = GetSpawnPosiition();
+            obstacleService = new ObstacleService(this, obstacleTileDataSO);
+            playerUnitService = new PlayerUnitService(playerUnitView, eventService, playerSpawnPosition);
+            Vector3 enemySpawnPosition = GetEnemySpawnPosition(playerSpawnPosition);
+            enemyService = new EnemyService(enemyUnitPrefab, eventService, enemySpawnPosition);
         }
 
         private Vector3 GetEnemySpawnPosition(Vector3 playerPosition)
         {
             Vector3 spawnPosition = GetSpawnPosiition();
-
             if (spawnPosition == playerPosition)
             {
                 spawnPosition = GetEnemySpawnPosition(playerPosition);
@@ -93,7 +106,7 @@ namespace CrimsonTactics.Core
         public void CreateObstacleAt(Vector3 position)
         {
             TileController tile = Instantiate(obstaclePrefab, position, Quaternion.identity);
-            tile.transform.SetParent(tileContainer, false);
+            tile.transform.SetParent(tileContainer, true);
         }
     }
 }

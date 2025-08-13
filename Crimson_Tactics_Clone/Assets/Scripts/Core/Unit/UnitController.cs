@@ -82,8 +82,10 @@ namespace CrimsonTactics.Unit
         //calculating checkpoints
         protected virtual void CalculateCheckpoints()
         {
-            targetCheckPointList.Clear();
-            targetCheckPointList = pathfinding.GetCheckpoints();
+            //targetCheckPointList.Clear();
+            //targetCheckPointList = pathfinding.GetCheckpoints();
+            pathfinding.CalculatePath();
+            targetCheckPointList = pathfinding.GetCheckpointsPath();
         }
 
         //Calculating direction and based on it calculating Velocity amd returning

@@ -16,6 +16,8 @@ namespace CrimsonTactics.UI
         [SerializeField] private TextMeshProUGUI tileStatusText;
         [SerializeField] private TextMeshProUGUI tilePositionText;
 
+        [SerializeField] private LevelTileDataSO tileLevelDataSO;
+
         private TilePositionUI tilePositionUI;
 
         private void Start()
@@ -33,14 +35,15 @@ namespace CrimsonTactics.UI
             eventService.onTilePositionUpdated.AddEventListener(UpdateTilePositionUI);
         }
 
+        public TileType GetTileType(int x, int y) => tileLevelDataSO.tileDataList[(x * 10) + y].GetTileType();
         private void OnDisable()
         {
-            eventService.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
+            eventService?.onTilePositionUpdated.RemoveEventListener(UpdateTilePositionUI);
         }
 
-        private void UpdateTilePositionUI(Vector3Int position, TileType tileType)
+        private void UpdateTilePositionUI(Vector3Int position)
         {
-            tilePositionUI.SetTilePosition(position, tileType);
+            tilePositionUI.SetTilePosition(position, GetTileType(position.x, position.z));
         }
 
         public void HideTilePositionUI() => HideUI(tilePositionUIGO);

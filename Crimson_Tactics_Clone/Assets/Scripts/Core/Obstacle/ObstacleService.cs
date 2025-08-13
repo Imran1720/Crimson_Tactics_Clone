@@ -20,7 +20,7 @@ namespace CrimsonTactics.Tile
         // Spawns obstacle at locations present in obstacleTileDataSO using GameService
         private void GenerateObstacle()
         {
-            List<Vector3> obstaclePositionList = obstacleTileDataSO.obstaclePositionList;
+            List<Vector3Int> obstaclePositionList = obstacleTileDataSO.obstaclePositionList;
             foreach (Vector3 position in obstaclePositionList)
             {
                 gameService.CreateObstacleAt(position);
