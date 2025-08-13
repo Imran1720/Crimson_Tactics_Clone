@@ -23,14 +23,19 @@ namespace CrimsonTactics.Tile
             return new Vector3Int(x, y, z);
         }
 
-        public void ToggleTileStatus()
+        public void InitializeData(Vector3Int position, TileType type, Transform container)
         {
-            currentTileType = IsTileOccupied() ? TileType.FREE : TileType.OBSTACLE;
+            currentTileType = type;
+            SetTilePosition(position);
+            transform.SetParent(container, false);
         }
 
         public TileType GetTileType() => currentTileType;
         public Vector3 GetTileWorldPosition() => transform.position;
         public Vector3Int GetTileGridPosition() => tileGridPosition;
         public bool IsTileOccupied() => currentTileType == TileType.OBSTACLE;
+
+        public void SetTileType(TileType tileType) => currentTileType = tileType;
+        public void SetTilePosition(Vector3Int position) => tileGridPosition = position;
     }
 }

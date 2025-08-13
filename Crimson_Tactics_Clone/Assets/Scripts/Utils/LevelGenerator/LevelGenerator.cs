@@ -9,25 +9,21 @@ namespace CrimsonTactics.Level
     {
         [Header("Level-Data")]
         [SerializeField] private Transform gameService;
-        [SerializeField] private Transform levelContainerPrefab;
 
         [SerializeField] private TileController tilePrefab;
+        [SerializeField] private Transform levelContainerPrefab;
 
+        [SerializeField] private LevelTileDataSO levelTileDataSO;
         [SerializeField] private LevelLayoutSettings layoutSettings;
+
         [SerializeField] private float obstacleOffset;
 
-        [SerializeField] private ObstacleTileDataSO obstacleTileDataSO;
-        [SerializeField] private LevelTileDataSO levelTileDataSO;
-
         private Transform levelContainer;
-
 
         private TileType[,] gridTileArray;
 
         private int gridSizeX;
         private int gridSizeY;
-        private Vector3 startOffset;
-        private int obstacleCount;
 
         //Method to create the gridSizeX x gridSizeY sized TileType Array
         public void CreateGridTileArray()
@@ -45,7 +41,6 @@ namespace CrimsonTactics.Level
         public void GenerateGrid()
         {
             Vector3 tilePosition = Vector3.zero;
-            obstacleTileDataSO.InitializeData(obstacleCount);
             if (gridTileArray == null)
             {
                 return;
@@ -59,43 +54,15 @@ namespace CrimsonTactics.Level
                 for (int j = 0; j < gridSizeY; j++)
                 {
                     tilePosition = GetTilePosition(i, j);
+
                     TileController spawnedTile = Instantiate(tilePrefab, tilePosition, Quaternion.identity);
                     spawnedTile.transform.SetParent(levelContainer, false);
-                    if (gridTileArray[i, j] == TileType.OBSTACLE)
-                    {
-                        spawnedTile.ToggleTileStatus();
-                        Vector3 obstacleOffsetPosition = new Vector3(tilePosition.x, tilePosition.y + obstacleOffset, tilePosition.z);
-                        obstacleTileDataSO.AddObstacleTilePosition(obstacleOffsetPosition);
-                    }
 
                     Vector3Int position = new Vector3Int(i, 0, j);
-                    levelTileDataSO.tileDataList.Add(new TileStorageData(position, gridTileArray[i, j]));
+                    levelTileDataSO.AddItem(position, gridTileArray[i, j]);
                 }
             }
             SaveScriptableData(levelTileDataSO);
-            SaveScriptableData(obstacleTileDataSO);
-        }
-
-        public void ToggleTileStatus(int x, int y)
-        {
-            if ((gridTileArray[x, y] == TileType.OBSTACLE))
-            {
-                gridTileArray[x, y] = TileType.FREE;
-                if (obstacleCount > 0)
-                {
-                    obstacleCount--;
-                }
-            }
-            else
-            {
-                gridTileArray[x, y] = TileType.OBSTACLE;
-                obstacleCount++;
-            }
-        }
-
-        public TileType GettileType(int x, int y)
-        {
-            return gridTileArray[x, y];
         }
 
         public void ClearLevel()
@@ -106,6 +73,7 @@ namespace CrimsonTactics.Level
             }
             gridTileArray = null;
         }
+
         public LevelLayoutSettings GetLevelLayoutSettings() => layoutSettings;
         public bool IsGridArrayEmpty() => gridTileArray == null;
 
@@ -113,9 +81,7 @@ namespace CrimsonTactics.Level
         //ensuring that the tile generated at the current transform is the center tile.
         private Vector3 GetTilePosition(int x, int z)
         {
-            //startOffset = new Vector3(gridSizeX / 2, transform.position.y, gridSizeY / 2);
-            Vector3 tilePosition = new Vector3(x, transform.position.y, z);
-            return tilePosition;
+            return new Vector3(x, transform.position.y, z);
         }
 
         private void SaveScriptableData(ScriptableObject scriptableData)
